@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>
+			Lab1
+		</title>
+
+		<style>
+			table,
+				td {
+	    			border: 1px solid #333;
+				}
+
+				thead,
+				tfoot {
+	    			background-color: #333;
+	    			color: #fff;
+				}
+			</style>
+			<script type="text/javascript">
+				function writeSomething(plaintext)
+				{
+					var k1 = 3;
+					var k2 = 5;
+					var calResult = plaintext.charCodeAt(2); //index start from 0..n-1
+
+					document.getElementById("calResult").innerHTML = calResult;
+					// In Java - Prints a transposition table for an affine cipher.
+					//
+					// public void Affine(int a, int b){
+					//for (int num = 0; num < 26; num++)
+					//   System.out.println(((char)('A'+num)) + ":" + ((char)('A'+(a*num + b)% 26)) );
+					//}
+					
+					//Affine(5,8)
+					//function printTranspositionTable(let a, let b)
+					//{
+						//for (var num = 0; num < 26; num++)
+						//{
+							//calResult = calResult + ((var)('A'+num)) + ":" + ((var)('A'+(a*num + b)% 26));	
+						//}
+					//}
+
+					//3) convert the input plaintext/ciphertext to number according to the alphabetic order, e.g. ‘a’/’A’ → 0. 
+					//Remember in the Q3, we use str.charCodeAt(i) to convert the ith character in string str to the ASCII code, e.g. ‘A’→65? 
+					//In this task, you may first unify all of the letters to lower case or upper case. Then, convert them to ASCII code, and minus the offset to get the alphabetic orders.
+
+					//For example, the input plaintext is “Ac”. 
+					//You may use the method plaintext.toLowerCase() mentioned in Q5 to convert it to “ac”. 
+					//Afterwards, you may use order_i = plaintext.charCodeAt(i) – 97 to convert it to (0, 2). Note that the ASCII code in decimal format of ‘a’ is 97.
+
+					//4) encrypt the order_i to get encrypted_order according to the encryption function.
+
+					//5) convert it back to string. You may use the method
+					//String.fromCharCode(encrypted_order + 97) . 
+					//More about this method can be found in this link (https://www.w3schools.com/jsref/jsref_fromcharcode.asp). 
+
+				}
+		    </script>
+
+
+	</head>
+
+	<body>
+			<table>
+				<thead>
+					<tr>
+							<th colspan="2"> Affine cipher </th>
+					</tr>
+				</thead>
+					<tr> <td> Plaintext </td> <td> <textarea id = "plaintext"> Security </textarea> </td> </tr>
+					<tr> <td> k1 </td> <td> <textarea type = number value = "3"> 3 </textarea> </td> </tr>
+					<tr> <td> k2 </td> <td> <textarea type = number value = "5"> 5 </textarea> </td> </tr>
+					<tr> <td> Ciphertext </td> <td> <textarea value = "calResult" id = "calResult" > </textarea> </td> </tr>
+
+				<tfoot>
+					<tr>
+						<td colspan="2"> <button onclick="writeSomething(plaintext.value)">Submit </button> </td>
+					</tr>
+				</tfoot>
+
+			</table>
+	</body>
+
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  
+  <title> Affine cipher </title>
+  
+  <style>
+    div{
+      width:700px;     
+      margin: auto;
+      
+    }
+    .centerBody{
+       
+      border-width: 2px 2px;
+      height:260px;
+    }
+    .centerHead{
+
+      width:500px;
+      height:50px;
+      margin: auto;
+    }
+
+  </style>
+
+</head>
+
+<body>
+  <script type="text/javascript">
+    function Encryption(){
+      
+      var plaintext = document.getElementById("Plain1").value;
+      plaintext = plaintext.toLowerCase();
+      var K1 = document.getElementById("k1").value;
+      var k1 = parseInt(K1);
+      var K2 = document.getElementById("k2").value;
+      var k2 = parseInt(K2);
+
+      //var plaint=plaintext.split("");
+      var cipher = [];
+      for(var i = 0; i < plaintext.length; i++){
+        var plainCode = plaintext.charCodeAt(i)-97;
+        var cipherCode = (plainCode*k1+k2)%26+97;
+        //alert(cipherCode)
+        cipher[i] = String.fromCharCode(cipherCode);
+      }
+      var ciphertext=cipher.join("");
+      //alert(ciphertext);
+      
+
+      document.getElementById("Cipher1").innerHTML = ciphertext;
+      
+    }
+
+    function Decryption(){
+      
+      var ciphertext = document.getElementById("Cipher2").value;
+      ciphertext = ciphertext.toLowerCase();
+      var K1 = document.getElementById("k1c").value;
+      var k1 = parseInt(K1);
+      var K2 = document.getElementById("k2c").value;
+      var k2 = parseInt(K2);
+
+      var plain = [];
+      for(var i = 0;i < ciphertext.length; i++){
+        var cipherCode=ciphertext.charCodeAt(i)-97;
+        //Get k1_1
+        var k1_1 = 1
+        while( ( ( k1_1 * k1 ) % 26 ) != 1){
+          k1_1++;
+        }
+        var plainAffCode = ( k1_1 * (cipherCode - k2) ) % 26;
+        while(plainAffCode < 0){
+          plainAffCode += 26;
+        }
+        var plainCode = plainAffCode+97;
+
+        plain[i] = String.fromCharCode(plainCode);
+      }
+      var plaintext = plain.join("");
+      //alert(plaintext);
+      
+
+      document.getElementById("Plain2").innerHTML = plaintext;
+      
+    }
+  </script>
+
+  <div >
+  <h1 align="center"> Affine Cipher:Encryption - Decryption </h1>  
+  </div>
+  
+  <form>
+    <div class="centerBody">
+      <br />
+      <table align="center">
+        <tr>
+          <td>Plaintext</td>
+          <td><textarea id="Plain1" rows="7" cols="70"></textarea></td>
+        </tr>
+        <tr>
+          <td>k_1:</td>
+          <td><input type="text" id="k1" style="width:100px" /></td>
+        </tr>
+        <tr>
+          <td>k_2:</td>
+          <td><input type="text" id="k2" style="width:100px" /></td>
+        </tr>
+        <tr>
+          
+          <td>
+            <input type="button" value="Encrypt" onclick="Encryption()">
+          </td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Ciphertext</td>
+          <td><textarea id="Cipher1" rows="7" cols="70"></textarea></td>
+        </tr>
+      </table>
+
+    <hr/>
+
+    <!--Decryption-->
+    <br />
+      <table align="center">
+        <tr>
+          <td>Ciphertext</td>
+          <td><textarea id="Cipher2" rows="7" cols="70"></textarea></td>
+        </tr>
+        <tr>
+          <td>k_1:</td>
+          <td><input type="text" id="k1c" style="width:100px" /></td>
+        </tr>
+        <tr>
+          <td>k_2:</td>
+          <td><input type="text" id="k2c" style="width:100px" /></td>
+        </tr>
+        <tr>
+          
+          <td>
+            <input type="button" value="Decrypt" onclick="Decryption()">
+          </td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Plaintext</td>
+          <td><textarea id="Plain2" rows="7" cols="70"></textarea></td>
+        </tr>
+      </table>
+
+    </div>
+    
+    <div class="centerBody">
+      
+    
+    </div>
+  </form>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
