@@ -18,14 +18,110 @@
 	    			color: #fff;
 				}
 			</style>
-			<script type="text/javascript">
-				function writeSomething(plaintext)
-				{
-					var k1 = 3;
-					var k2 = 5;
-					var calResult = plaintext.charCodeAt(2); //index start from 0..n-1
+			
 
-					document.getElementById("calResult").innerHTML = calResult;
+
+	</head>
+
+	<body>
+			<table>
+				<thead>
+					<tr>
+							<th colspan="2"> Affine cipher Encryption </th>
+					</tr>
+				</thead>
+					<tr> <td> Plaintext </td> <td> <textarea id = "plaintext">Security</textarea> </td> </tr>
+					<tr> <td> k1 </td> <td> <textarea id = "k1" type = text>3</textarea> </td> </tr>
+					<tr> <td> k2 </td> <td> <textarea id = "k2" type = text>5</textarea> </td> </tr>
+					<tr> <td> Ciphertext </td> <td> <textarea value = "calResult" id = "calResult" > </textarea> </td> </tr>
+
+				<tfoot>
+					<tr>
+						<td colspan="2"> <button onclick="writeSomething(k1.value, k2.value, plaintext.value)">Submit </button> </td>
+					</tr>
+				</tfoot>
+
+			</table>
+
+			<table>
+				<thead>
+					<tr>
+							<th colspan="2"> Affine cipher Decryption </th>
+					</tr>
+				</thead>
+					<tr> <td> Ciphertext </td> <td> <textarea id = "ciphertext2">hrlnedkz</textarea> </td> </tr>
+					<tr> <td> k1 </td> <td> <textarea id = "k1_2" type = text>3</textarea> </td> </tr>
+					<tr> <td> k2 </td> <td> <textarea id = "k2_2" type = text>5</textarea> </td> </tr>
+					<tr> <td> Plaintext </td> <td> <textarea value = "calResult_d" id = "calResult_d" > </textarea> </td> </tr>
+
+				<tfoot>
+					<tr>
+						<td colspan="2"> <button onclick="decryption(k1_2.value, k2_2.value, ciphertext2.value)">Submit </button> </td>
+					</tr>
+				</tfoot>
+
+			</table>
+
+			<script type="text/javascript">
+				function writeSomething(k1,k2,plaintext)
+				{
+					var plaintext = document.getElementById("plaintext").value;
+					plaintext = plaintext.toLowerCase();
+					console.log(plaintext);
+
+					var k1 = parseInt(k1);
+					var k2 = parseInt(k2);
+
+					//define an array
+					var cipher = [];
+					for(let i = 0; i < plaintext.length; i++ ){
+						var plainCode = plaintext.charCodeAt(i) - 97;
+						var cipherCode = (plainCode * k1 + k2) % 26 + 97;
+
+						cipher[i] = String.fromCharCode(cipherCode);
+					}
+
+					var ciphertext = cipher.join("");
+					document.getElementById("calResult").innerHTML = ciphertext;
+				}
+
+				function decryption(k1_2,k2_2,ciphertext2)
+				{
+					var ciphertext2 = document.getElementById("ciphertext2").value;
+					ciphertext2 = ciphertext2.toLowerCase();
+					var plain = []
+					//console.log(ciphertext2);
+					for(let i = 0; i < ciphertext2.length; i++ )
+					{
+						var cipherCode = ciphertext2.charCodeAt(i)-97;
+						var k = 1;
+						while (((k * k1_2) % 26) != 1){
+							console.log(k);
+							k++;
+						}
+						var plainAffCode = (k * (cipherCode - k2_2)) % 26;
+						while(plainAffCode < 0){
+							plainAffCode += 26;
+							
+						}
+						var plainCode = plainAffCode+97;
+
+						plain[i] = String.fromCharCode(plainCode);
+					}
+						var ciphertext2 = plain.join("");
+						
+						document.getElementById("calResult_d").innerHTML = ciphertext2;
+
+
+					// My Practice:
+					//var k1 = 3;
+					//var k2 = 5;
+					//var calResult = plaintext.charCodeAt(2); //index start from 0..n-1
+
+
+
+					//document.getElementById("calResult").innerHTML = calResult;
+
 					// In Java - Prints a transposition table for an affine cipher.
 					//
 					// public void Affine(int a, int b){
@@ -58,29 +154,6 @@
 
 				}
 		    </script>
-
-
-	</head>
-
-	<body>
-			<table>
-				<thead>
-					<tr>
-							<th colspan="2"> Affine cipher </th>
-					</tr>
-				</thead>
-					<tr> <td> Plaintext </td> <td> <textarea id = "plaintext"> Security </textarea> </td> </tr>
-					<tr> <td> k1 </td> <td> <textarea type = number value = "3"> 3 </textarea> </td> </tr>
-					<tr> <td> k2 </td> <td> <textarea type = number value = "5"> 5 </textarea> </td> </tr>
-					<tr> <td> Ciphertext </td> <td> <textarea value = "calResult" id = "calResult" > </textarea> </td> </tr>
-
-				<tfoot>
-					<tr>
-						<td colspan="2"> <button onclick="writeSomething(plaintext.value)">Submit </button> </td>
-					</tr>
-				</tfoot>
-
-			</table>
 	</body>
 
 </html>
