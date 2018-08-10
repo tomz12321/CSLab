@@ -1,0 +1,70 @@
+<html>
+	<head>
+		<title> 4-bit binary nibble substitution </title>
+		<style>
+			table,
+				td {
+    				border: 1px solid #333;
+				}
+
+			thead
+		</style>
+		<script type = "text/javascript">
+			//function mapResult
+			function mapResult(index){
+				//parseInt(number, base)
+				var v1 = index.charAt(0);
+				var v2 = index.charAt(1);
+				var v3 = index.charAt(2);
+				var v4 = index.charAt(3);
+
+
+				number = (Number(v1) * 8 + Number(v2) * 4 + Number(v3) * 2 + Number(v4) * 1)+1;
+				//parseInt(number, base)
+				console.log(number);
+
+				//array[16]
+				var arr = ["1001","0100","1010","1011","1101","0001","1000","0101","0110","0110","0010","0000","0011","1100","1110","1111","0111"];
+
+				var resultOutput = arr[number];
+				console.log(resultOutput);
+
+				//display result
+				document.getElementById("resulttext").innerHTML = resultOutput;
+
+			}
+		</script>
+
+	</head>
+	<body>
+			<div class = "4-bit-XOR">
+				<table>
+					<thread>
+						<tr>
+							<th colspan="2"> 4-bit binary nibble substitution </th>
+						</tr>
+					</thread>
+
+					<tbody>
+					
+						<tr>
+								<td> <label> 4-bit nibble </label> </td>
+								<td> <input type = "text" name = "plaintext" id = "plaintext" value = 1110 required> </td>
+						</tr>
+
+						<tr>
+								<td> <label> output nibble </label> </td>
+								<td> <p id="resulttext"> </p> <!-- <input type = "text" name = "resulttext" id = "resulttext"> --> </td>
+						</tr>
+
+					</tbody>
+					
+					<tfoot>
+
+					</tfoot>
+				
+				</table>
+				<button onclick = "mapResult(plaintext.value)"> Submit </button>
+  			</div>
+	</body>
+</html>
