@@ -4,21 +4,54 @@ import java.lang.*;
 
 public class TranspositionCipher {
     public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
+    		Scanner scan = new Scanner(System.in);
         String line = System.getProperty("line.separator");
         scan.useDelimiter(line);
 
-        System.out.print("Press 1 to \nEncryt 2 tp Decrypt : ");
+        System.out.print("Press 1 to \nEncryt 2 to Decrypt : ");
         int option = scan.nextInt();
         switch (option) {
             case 1:
+            		//THEME,ETING,hasbe,enpos,tpone,dunti,lnext,month (length:40)
                 System.out.print("Enter String:");
-                String text = scan.next();
-
+                String text = scan.next().trim();
+                
+                int sectionCount = 0;
+                String newSentence = "";
+                //for (0->text.length-1) for (0->5)
+                for (int i = 0; i < text.length(); i= i + 5)
+                {
+	                for (int j = 0; j < 5 ; j++)
+	                {
+	                		//text.charAt(i+j);
+	                		newSentence = newSentence + text.charAt(i+j);
+	                }
+	                sectionCount++ ;
+	                //System.out.println("sectionCount:"+sectionCount);
+	                if (i + 5 != text.length())
+	                		newSentence = newSentence + (",");
+	                //System.out.println("newSentence:"+newSentence);
+	                
+                }
+                //String[] strArray = new String[3];
+                String[] fullSentence = new String[sectionCount];
+                
+                //hard code first
+                //String inputSentence = "THEMEETINGhasbeenpostponeduntilnextmonth"
+                //String secSentence = "THEME,ETING,hasbe,enpos,tpone,dunti,lnext,month";
+                //sectionCount = 8;
+                //String[] attribute = secSentence.split(",");
+                String[] attribute = newSentence.split(",");
+                
                 System.out.print("Enter Key:");
                 String key = scan.next();
-
-                System.out.println(encryptCT(key, text).toUpperCase());
+                
+                //(for (0->n))
+                for (int k = 0; k < sectionCount; k++ )
+                {
+                		//System.out.println(encryptCT(key, text).toUpperCase());
+                		System.out.println(encryptCT(key, attribute[k]).toLowerCase());
+                }
                 break;
             case 2:
                 System.out.print("Enter Encrypted String:");
