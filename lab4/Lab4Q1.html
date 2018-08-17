@@ -1,0 +1,90 @@
+<html>
+	<head>
+		<title> Implementation of Euclidean Algorithm </title>
+		<style>
+			table,
+				td {
+    				border: 1px solid #333;
+				}
+
+			thead
+		</style>
+		<script type = "text/javascript">
+			//
+			//Having laid the protocol of mix columns above, now we use JavaScript to implement it. 
+			//Noted that, the addition operation is simply an XOR which has been developed 
+			//in Q1, and for the multiplication operation you can use the following lookup table. 
+			//For example, 4*1110=4*E=D=13=1101.
+
+			//function mapResult
+			function mapResult(v1,v2){
+				//parseInt(number, base)
+				v1 = Number(v1);
+				v2 = Number(v2);
+				var r = 1;
+
+				var v1_ = v1; //original number
+				var v2_ = v2; //original number
+
+				while (r!=0){
+					r = v1 % v2;
+					v1 = v2;
+					v2 = r; 
+				}
+				
+				//mix column array[16] to solve 16
+
+				var resultOutput = v1;
+				console.log(v1);
+
+				//display result
+				document.getElementById("resulttext").innerHTML = resultOutput;
+
+			}
+
+			//function myFunction() {
+ 			//	var num = 15;
+    		//	var n = num.toString(16);
+    		//document.getElementById("demo").innerHTML = n;
+			//}
+
+		</script>
+
+	</head>
+	<body>
+			<div class = "4-bit-XOR">
+				<table>
+					<thread>
+						<tr>
+							<th colspan="2"> Implementation of Euclidean Algorithm </th>
+						</tr>
+					</thread>
+
+					<tbody>
+					
+						<tr>
+								<td> <label> Input Interger 1 (Bigger) </label> </td>
+								<td> <input type = "text" name = "inputtext1" id = "inputtext1" value = 35 required> </td>
+						</tr>
+
+						<tr>
+								<td> <label> Input Interger 2 (Smaller) </label> </td>
+								<td> <input type = "text" name = "inputtext2" id = "inputtext2" value = 792 required> </td>
+						</tr>
+
+						<tr>
+								<td> <label> GCD (35,792) </label> </td>
+								<td> <p id="resulttext"> </p> <!-- <input type = "text" name = "resulttext" id = "resulttext"> --> </td>
+						</tr>
+
+					</tbody>
+					
+					<tfoot>
+
+					</tfoot>
+				
+				</table>
+				<button onclick = "mapResult(inputtext1.value,inputtext2.value)"> Submit </button>
+  			</div>
+	</body>
+</html>
