@@ -1,0 +1,116 @@
+<html>
+	<head>
+		<title> 4-bit-XOR </title>
+		<style>
+			table,
+				td {
+    				border: 1px solid #333;
+				}
+
+			thead
+		</style>
+		<script type = "text/javascript">
+			//function mapResult
+			function mapResult(input1, input2){
+				//parseInt(number, base)
+				var v1 = input1.charAt(0);
+				var v2 = input1.charAt(1);
+				var v3 = input1.charAt(2);
+				var v4 = input1.charAt(3);
+
+				var va = input2.charAt(0);
+				var vb = input2.charAt(1);
+				var vc = input2.charAt(2);
+				var vd = input2.charAt(3);
+
+				var result1;
+				var result2;
+				var result3;
+				var result4;
+
+				//array[4]
+				var arr = ["0","1","1","0"];
+
+				if (Number(v1) === 1 && Number(va) === 1)
+					result1 = arr[0];
+				if (Number(v1) === 1 && Number(va) === 0)
+					result1 = arr[1];
+				if (Number(v1) === 0 && Number(va) === 1)
+					result1 = arr[2];
+				if (Number(v1) === 0 && Number(va) === 0)
+					result1	= arr[3];
+
+				if (Number(v2) === 1 && Number(vb) === 1)
+					result2 = arr[0];
+				if (Number(v2) === 1 && Number(vb) === 0)
+					result2 = arr[1];
+				if (Number(v2) === 0 && Number(vb) === 1)
+					result2 = arr[2];
+				if (Number(v2) === 0 && Number(vb) === 0)
+					result2	= arr[3];
+				
+				if (Number(v3) === 1 && Number(vc) === 1)
+					result3 = arr[0];
+				if (Number(v3) === 1 && Number(vc) === 0)
+					result3 = arr[1];
+				if (Number(v3) === 0 && Number(vc) === 1)
+					result3 = arr[2];
+				if (Number(v3) === 0 && Number(vc) === 0)
+					result3	= arr[3];
+
+				if (Number(v4) === 1 && Number(vd) === 1)
+					result4 = arr[0];
+				if (Number(v4) === 1 && Number(vd) === 0)
+					result4 = arr[1];
+				if (Number(v4) === 0 && Number(vd) === 1)
+					result4 = arr[2];
+				if (Number(v4) === 0 && Number(vd) === 0)
+					result4	= arr[3];
+
+				var resultOutput = result1 + result2 + result3 + result4;
+				console.log(resultOutput);
+
+				//display result
+				document.getElementById("resulttext").innerHTML = resultOutput;
+
+			}
+		</script>
+
+	</head>
+	<body>
+			<div class = "4-bit-XOR">
+				<table>
+					<thread>
+						<tr>
+							<th colspan="2"> Bitwise XOR operation </th>
+						</tr>
+					</thread>
+
+					<tbody>
+					
+						<tr>
+								<td> <label> Input1 </label> </td>
+								<td> <input type = "text" name = "inputtext1" id = "inputtext1" value = 0 required> </td>
+						</tr>
+
+						<tr>
+								<td> <label> Input2 </label> </td>
+								<td> <input type = "text" name = "inputtext2" id = "inputtext2" value = 0 required> </td>
+						</tr>
+
+						<tr>
+								<td> <label> Output Result </label> </td>
+								<td> <p id="resulttext"> </p> <!-- <input type = "text" name = "resulttext" id = "resulttext"> --> </td>
+						</tr>
+
+					</tbody>
+					
+					<tfoot>
+
+					</tfoot>
+				
+				</table>
+				<button onclick = "mapResult(inputtext1.value,inputtext2.value)"> Submit </button>
+  			</div>
+	</body>
+</html>
