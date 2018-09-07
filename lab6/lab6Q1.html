@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Simple Primality Test Algorithm </title>
+	<meta name="description" content="Hello World">
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+	<style>
+        table,table tr th, table tr td { border:1px solid #0094ff; }
+        table { width: 200px; min-height: 25px; line-height: 25px; text-align: center; border-collapse: collapse;}   
+    </style>
+
+    <!-- function to verify if it is a prime-->
+    <script type="text/javascript">
+		//functionIsPrime
+		function isPrime(num){
+
+			//deal with num
+
+			var resultOutput1 = num;
+			console.log(num);
+
+			
+
+			//display result
+			document.getElementById("resulttext1").innerHTML = resultOutput1;
+			
+		}    	
+
+    </script>
+
+</head>
+<body>
+	<p>Integer:</p>
+	<input type="number" id="inputtext1" name="inputtext1"><br/>
+
+	<p> Interger <p id="resulttext1" name="resulttext1">550</p> is not a prime.</p>
+
+	<table>
+		<tr>
+			<td> 2 </td>
+			<td> 3 </td>
+			<td> 5 </td>
+			<td> 7 </td>
+			<td> 11 </td>
+			<td> 13 </td>
+			<td> 17 </td>
+			<td> 19 </td>
+			<td> 23 </td>
+			<td> 29 </td>
+		</tr>
+		<tr>
+			<td> 31 </td>
+			<td> 37 </td>
+			<td> 41 </td>
+			<td> 43 </td>
+			<td> 47 </td>
+			<td> 53 </td>
+			<td> 59 </td>
+			<td> 61 </td>
+			<td> 67 </td>
+			<td> 71 </td>
+		</tr>
+		<tr>
+			<td> 73 </td>
+			<td> 79 </td>
+			<td> 83 </td>
+			<td> 89 </td>
+			<td> 97 </td>
+			<td> 101 </td>
+			<td> 103 </td>
+			<td> 107 </td>
+			<td> 109 </td>
+			<td> 113 </td>
+		</tr>
+	</table>
+	<button onclick = "isPrime(inputtext1.value)">Submit</button>
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<!-- This is the last step. We need to download the latest jQuery version and copy the link in the body section. Here, I have the link which need to write before the bootstrap.min.js script. -->
+	<script src= http://code.jquery.com/jquery-2.1.4.min.js> </script>
+</body>
+</html>

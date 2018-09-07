@@ -1,0 +1,100 @@
+<html>
+
+<head>
+<title>Output</title>
+</head>
+
+<body>
+
+<p><font size="6">Output Form</font></p>
+<hr>
+<p><font color="#FF0000">1.&nbsp;&nbsp;&nbsp; N = p * q
+</font></p>
+<p><font color="#FF0000">2.&nbsp;&nbsp;&nbsp; 
+phi = ( p - 1 ) * ( q - 1
+)&nbsp;&nbsp;&nbsp;&nbsp;</font></p>
+<p><font color="#FF0000">3.&nbsp;&nbsp;&nbsp; GCD 
+( phi , e ) = 1</font></p>
+<p><font color="#FF0000">4.&nbsp;&nbsp;&nbsp; 
+Encrypted Text ( c ) = M<sup>e</sup>
+* ( mod N )</font></p>
+<p><font color="#FF0000">5.&nbsp;&nbsp;&nbsp; 
+e * d =&nbsp; 1 * ( mod phi )</font></p>
+<p><font color="#FF0000">6.&nbsp;&nbsp;&nbsp; 
+Decrypted Text = c<sup>d</sup> * (
+mod N )</font></p>
+
+<table border="0" width="100%">
+  <tr>
+    <td width="22%"><font color="#0000FF">N
+      </font></td>
+    <td width="78%"><input type="text" name="N" 
+
+       size="20" value=55></td>
+  </tr>
+  <tr>
+    <td width="22%"><font color="#0000FF">Phi</font></td>
+    <td width="78%"><input type="text" 
+
+       name="phi" size="20" value=40></td>
+  </tr>
+  <tr>
+    <td width="22%"><font color="#0000FF">e
+        </font></td>
+    <td width="78%">
+   <input type="text" name="e" size="20"></td>
+  </tr>
+  <tr>
+    <td width="22%"><font color="#0000FF">Plain Text
+     </font></td>
+    <td width="78%">
+    <!--<input type="text" name="c" size="20">-->
+      <input type="text" id="inputtext1" name="inputtext1"><br/>
+    </td>
+  </tr>
+  <tr>
+    <td width="22%"><font color="#0000FF">d
+        </font></td>
+    <td width="78%"><input type="text" name="d" size="20">
+        </td>
+  </tr>
+  <tr>
+    <td width="22%"><font color="#0000FF">
+        Encrypted Text<!--Decrypted Text</font>--></td>
+    <td width="78%"><!--<input type="text" name="M" size="20">--><p id="resulttext1" name="resulttext1"> </p></td>
+  </tr>
+  <tr>
+    <td width="22%">
+        <!--<input type="button" value="Encrypt" name="Encrypt" >-->
+        <button onclick = "doEncrypt(inputtext1.value)">Encrypt</button>
+    </td>
+        <td><input type="button" value="Decrypt" name="Decrypt" ></td>
+        <td><input type="button" value="Clear Plaintext" name="Clear Plaintext" ></td>
+        <td><input type="button" value="Close" name="Close" onClick="window.close()"></td>
+    <td width="78%">&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+
+<script type="text/javascript">
+    //functionDoEncryption
+    function doEncrypt(num){
+
+      //deal with num
+
+      var resultOutput1 = num;
+      console.log(num);
+      resultOutput1 = "3902281331281331003139091339"
+
+      
+
+      //display result
+      document.getElementById("resulttext1").innerHTML = resultOutput1;
+      
+    }     
+
+    </script>
+
+</body>
+
+</html>
