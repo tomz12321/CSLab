@@ -30,7 +30,33 @@
 			//display result
 			document.getElementById("resulttext1").innerHTML = resultOutput1;
 			
-		}    	
+		}
+
+		//function isPrimeSqr source: https://stackoverflow.com/questions/40200089/is-a-number-prime
+		const isPrimeSqr = num => {
+			
+			document.getElementById("resulttext1").innerHTML = num;
+
+    		for(let i = 2, s = Math.sqrt(num); i <= s; i++)
+    		{
+        		if(num % i === 0) 
+        		{
+        			//return false
+        			//display result
+					document.getElementById("resulttext2").innerHTML = "is not";
+					break;
+        		} 
+        		else
+        		{ 
+    				//return num !== 1;
+    				//display result
+    				document.getElementById("resulttext2").innerHTML = "is";
+    				break;
+    			}
+    		}
+    		
+			
+		}
 
     </script>
 
@@ -39,7 +65,7 @@
 	<p>Integer:</p>
 	<input type="number" id="inputtext1" name="inputtext1"><br/>
 
-	<p> Interger <p id="resulttext1" name="resulttext1">550</p> is not a prime.</p>
+	<p> Interger <p id="resulttext1" name="resulttext1">550</p> <p id="resulttext2" name="resulttext2">is</p> a prime.</p>
 
 	<table>
 		<tr>
@@ -79,7 +105,7 @@
 			<td> 113 </td>
 		</tr>
 	</table>
-	<button onclick = "isPrime(inputtext1.value)">Submit</button>
+	<button onclick = "isPrimeSqr(inputtext1.value)">Submit</button>
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	<!-- This is the last step. We need to download the latest jQuery version and copy the link in the body section. Here, I have the link which need to write before the bootstrap.min.js script. -->
