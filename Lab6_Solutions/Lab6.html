@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		  
+	
+	<script type="text/javascript" src="jquery-ui/jquery-1.11.3.js"></script>
+	<script type="text/javascript" charset="utf8" src="jquery-ui/jquery-ui.js"></script>
+
+    <script type="text/javascript" src="js/unpadRsa.js"></script>
+    <script type="text/javascript" src="js/primalityTestNaive.js"></script>
+    
+	  
+	
+	<link rel="stylesheet" type="text/css" href="jquery-ui/jquery-ui.css">
+	<link rel="stylesheet" type="text/css" href="jquery-ui/jquery-ui.theme.css">
+
+	
+
+
+	<title>Cloud Security Lab 6</title>
+	
+  <script>
+  $( function() {
+    $( "#accordion" ).accordion({
+        heightStyle: "content"
+
+    });
+  } );
+  </script>
+
+<style>
+table.blueTable {
+    font-family: Arial, Helvetica, sans-serif;
+    border: 1px solid #196190;
+    background-color: #EEEEEE;
+    width: 700px;
+    text-align: left;
+    border-collapse: collapse;
+  }
+  table.blueTable td, table.blueTable th {
+    border: 1px solid #AAAAAA;
+    padding: 2px 2px;
+  }
+  table.blueTable tr:nth-child(even) {
+    background: #D0E4F5;
+  }
+  table.blueTable tbody td {
+  font-size: 13px;
+}
+</style>
+
+<script>
+function testPrime(){
+var p = parseInt(document.getElementById("int_prime").value);
+var isPrime = isPrimeNum(p);
+
+if(isPrime){
+    var msg = "Integer "+p+" is a prime.";
+}else{
+    var msg = "Integer "+p+" is not prime.";
+}
+
+document.getElementById("res_prime").innerHTML = msg;
+
+var list = primeNumList(p);
+var start = "<hr><table class='blueTable'><tbody>";
+var end = "</tbody></table>";
+var tdStart = "<td>";
+var tdEnd="</td>";
+var trStart = "<tr>";
+var trEnd = "</tr>";
+var listLen = list.length;
+var rowLen = Math.floor(listLen/10)+1; 
+
+var printList = start;
+for(var rowNum=0; rowNum < rowLen; rowNum++){
+    printList += trStart;
+    for(var i=0; i<10; i++){
+
+        if(rowNum*10+i<listLen){
+            num = list[rowNum*10+i];
+        }else{
+            num="";
+        }
+
+        printList += tdStart+num+tdEnd;
+    }
+    printList += trEnd;
+}
+printList += end;
+document.getElementById("list_prime").innerHTML = printList;
+
+}
+
+function getInt1(){
+    var int1 = document.getElementById("int1").value;
+    document.getElementById("i1").innerHTML = int1;
+}
+
+function getInt2(){
+    var int2 = document.getElementById("int2").value;
+    document.getElementById("i2").innerHTML = int2;
+}
+
+function getN(){
+    var p = parseInt(document.getElementById("p1").value);
+    var q = parseInt(document.getElementById("q1").value);
+    var n = p*q;
+    var phin = (p-1)*(q-1);
+    document.getElementById("n1").innerHTML=n.toString(10);
+    document.getElementById("phin1").innerHTML = phin.toString(10);
+    //var e = randomE(phin);
+    //document.getElementById("e1").innerHTML = e.toString(10);
+
+    //var d = calD(p, q, e);
+    //document.getElementById("d1").innerHTML = d.toString(10);
+
+}
+
+function rsaEncrypt(){
+    var plaintext = document.getElementById("plaintext").value;
+    var n = parseInt(document.getElementById("n1").innerHTML);
+    var e = parseInt(document.getElementById("e1").value);
+    //var d = parseInt(document.getElementById("d1").innerHTML);
+    var c = encryptMsg(e, n, plaintext);
+    document.getElementById("ciphertext").value = c.toString();
+}
+
+function clearP(){
+    document.getElementById("plaintext").value="";
+}
+
+function rsaDecrypt(){
+    var ciphertext = document.getElementById("ciphertext").value;
+    var n = parseInt(document.getElementById("n1").innerHTML);
+    var d = parseInt(document.getElementById("d1").value);
+    //var d = parseInt(document.getElementById("d1").innerHTML);
+    var p = decryptMsg(d, n, ciphertext);
+    document.getElementById("plaintext").value = p.toString();
+}
+
+</script>
+</head>
+<body>
+
+<div id="accordion" style="width:900px; font-family:Calibri,Lucida Grande,Lucida Sans,Arial,sans-serif;">
+	
+    <h3 align="left" id="head_01"><b>Simple Primality Test algorithm</b></h3>
+
+    <div>
+        <center>
+            <table width="800">
+            	<tbody>
+                <tr>        
+                    <td><label for="int_prime">Integer:</label></td>
+                    <td><input id="int_prime" size=28 maxlength="100"  placeholder="" /></td> 
+                    <td><button id="btn_prime" onclick="testPrime()" class="ui-button ui-widget ui-corner-all">Check</button></td>       
+                </tr>
+            	 
+            	<tr>    	
+            		<td colspan="3"><span id="res_prime"></span></td>        
+                </tr>
+                <tr>        
+                    <td colspan="3"><span id="list_prime"></span></td>        
+                </tr>
+                </tbody>
+            </table>
+        </center>
+    </div>
+
+<h3><b>Unpadded RSA Encryption & Decryption with Text</b></h3>
+  
+  <div>
+  	<center>
+       <table width="800">
+        	<tbody>
+            <tr>        
+                <td><label for="p1">prime p:</label></td>
+                <td><input id="p1" size=28 maxlength="100"  placeholder="5" /></td>        
+            </tr>    
+            <tr>        
+                <td><label for="q1">prime q:</label></td>
+                <td><input id="q1" size=28 maxlength="100"  placeholder="11" onkeyup="getN()"/></td>
+            </tr>
+            <tr>
+                <td><label for="n1">n=p*q:</label></td>
+                <td><span id="n1"/></span></td>
+            </tr>
+            <tr>
+                <td><label for="phin1">&Phi;(n) = (p-1)*(q-1):</label></td>
+                <td><span id="phin1"/></span></td>
+            </tr>
+            <tr>
+                <td><label for="e1">e:</label></td>
+                <td><input id="e1" size=28 maxlength="100"  placeholder="13" /></td>
+            </tr>
+            <tr>
+                <td><label for="d1">d:</label></td>
+                <td><input id="d1" size=28 maxlength="100"  placeholder="37" /></td>
+            </tr>
+        	<tr>    	
+        		<td><label for="plaintext">plaintext message:</label></td>
+                <td><input id="plaintext" size=41 maxlength="512"  placeholder="" /></td>
+                 
+            </tr>     
+            <tr>    	
+        		<td><label for="ciphertext">encrypted message:</label></td>
+                <td colspan="3"><textarea id="ciphertext" cols=42 rows=3 ></textarea></td>
+            </tr>
+            <tr>    
+                <td></td>    
+                 <td><button id="mybtn1" onclick="rsaEncrypt()" class="ui-button ui-widget ui-corner-all">Encrypt</button> <button id="mybtn2" onclick="rsaDecrypt()" class="ui-button ui-widget ui-corner-all">Decrypt</button> <button id="clear2" onclick="clearP()" class="ui-button ui-widget ui-corner-all">Clear Pleaintext</button></td>
+            </tr>
+            </tbody>
+        </table>
+    </center>
+  </div>
+
+
+</div>
+
+
+</body>
+</html>
