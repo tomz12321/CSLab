@@ -1,7 +1,53 @@
 <html>
 
 <head>
-<title>Output</title>
+  <title>Output</title>
+    <script type="text/javascript">
+      function rsaDecrypt(){
+        var ciphertext = document.getElementById("ciphertext").value;
+        var n = parseInt(document.getElementById("n1").innerHTML);
+        var d = parseInt(document.getElementById("d1").value);
+        //var d = parseInt(document.getElementById("d1").innerHTML);
+        var p = decryptMsg(d, n, ciphertext);
+        document.getElementById("plaintext").value = p.toString();
+      }
+
+      function decryptMsg(d, n, msg) {
+        //convert to lowercase/uppercase and sanitize
+        var ciphertext = msg.replace(/[^0-9]/g, "");  
+        var plaintext ="";
+        if(ciphertext.length < 1){ 
+          alert("please enter some ciphertext"); return; 
+        }    
+    
+
+        for(var i=0; i < ciphertext.length; i = i+2){
+          var block = parseInt(ciphertext.substring(i, i+2));
+          //alert("block:"+block);
+          var code = rsaDecryption(d, n, block);
+          //alert("code:"+code);
+          var newcode;
+          if(code == 26){
+            newcode = 32;
+          }
+          else{
+            newcode = code+97;
+          }
+         
+          // alert("newcode:"+newcode);
+          var newletter = String.fromCharCode(newcode).toUpperCase();
+          //alert("newletter:"+newletter);
+          plaintext = plaintext + newletter;
+        }
+    
+        return plaintext;
+    
+      }
+
+      function clearP(){
+        document.getElementById("inputtext1").value="";
+      }
+  </script>
 </head>
 
 <body>
@@ -64,12 +110,23 @@ mod N )</font></p>
     <td width="78%"><!--<input type="text" name="M" size="20">--><p id="resulttext1" name="resulttext1"> </p></td>
   </tr>
   <tr>
+    <td width="22%"><font color="#0000FF">
+        Input Cipher Text<!--Decrypted Text</font>--></td>
+    <td width="78%"><!--<input type="text" name="M" size="20">--><input type="text" id="inputtext2" name="inputtext2"><br/></td>
+  </tr>
+  <tr>
+  <tr>
+    <td width="22%"><font color="#0000FF">
+        Plain Text<!--Decrypted Text</font>--></td>
+    <td width="78%"><!--<input type="text" name="M" size="20">--><p id="resulttext2" name="resulttext2"> </p></td>
+  </tr>
     <td width="22%">
         <!--<input type="button" value="Encrypt" name="Encrypt" >-->
         <button onclick = "doEncrypt(inputtext1.value)">Encrypt</button>
+        <!--<button onclick = "doEncrypt(this.form)"> Encrypt Form </button>-->
     </td>
-        <td><input type="button" value="Decrypt" name="Decrypt" ></td>
-        <td><input type="button" value="Clear Plaintext" name="Clear Plaintext" ></td>
+        <td><input type="button" value="Decrypt" name="Decrypt" onclick = "doDescrypt(resulttext1.value)"></td>
+        <td><!--<input type="button" value="Clear Plaintext" name="Clear Plaintext" >--></td>
         <td><input type="button" value="Close" name="Close" onClick="window.close()"></td>
     <td width="78%">&nbsp;</td>
   </tr>
@@ -89,11 +146,27 @@ mod N )</font></p>
       
 
       //display result
-      document.getElementById("resulttext1").innerHTML = resultOutput1;
+      document.getElementById("resulttext1").innerHTML = resultOutput1.toString();
       
-    }     
+    }
 
-    </script>
+        //functionDoDescryption
+    function doDescrypt(ctext){
+
+      //deal with ctext
+
+      var resultOutput1 = ctext;
+      console.log(ctext);
+      resultOutput1 = "THIS IS A TEST"
+
+      
+
+      //display result
+      document.getElementById("resulttext2").innerHTML = resultOutput1.toString();
+      
+    }       
+
+</script>
 
 </body>
 
