@@ -1,0 +1,11 @@
+// Lab7 - no code work this week
+
+Online AES encryption and decryption: 
+http://rubbingalcoholic.github.io/cowcrypt/demos/aes.html
+
+Online RSA encryption and decryption:
+http://www-cs-students.stanford.edu/~tjw/jsbn/rsa2.html
+
+Online digital signature algorithm:
+https://kjur.github.io/jsrsasign/sample/sample-rsasign.html
+
