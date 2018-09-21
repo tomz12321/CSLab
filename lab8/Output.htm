@@ -1,0 +1,188 @@
+<html>
+
+<head>
+<title>Output</title>
+</head>
+
+<body>
+
+<p><font size="6">Output Form</font></p>
+<hr>
+<p><font color="#FF0000">1.&nbsp;&nbsp;&nbsp;
+modulus q</font></p>
+<p><font color="#FF0000">2.&nbsp;&nbsp;&nbsp; 
+generator g</font></p>
+<p><font color="#FF0000">3.&nbsp;&nbsp;&nbsp; 
+Alice chooses x</font></p>
+<p><font color="#FF0000">4.&nbsp;&nbsp;&nbsp; 
+Alice sends hA</font></p>
+<p><font color="#FF0000">5.&nbsp;&nbsp;&nbsp; 
+Bob chooses y</font></p>
+<p><font color="#FF0000">6.&nbsp;&nbsp;&nbsp; 
+Bob sends hB</font></p>
+
+<table border="0" width="100%">
+  <tr>
+    <td width="22%"><font color="#0000FF">modulus q
+      </font></td>
+    <td width="78%"><input type="text" name="q" id ="q" 
+
+       size="20"></td>
+  </tr>
+  <tr>
+    <td width="22%"><font color="#0000FF">generator g
+      </font></td>
+    <td width="78%"><input type="text" 
+
+       name="g" id="g" size="20"></td>
+  </tr>
+  <tr>
+    <td width="22%"><font color="#0000FF">Alice chooses x
+      </font></td>
+    <td width="78%">
+   <input type="text" name="x" id = "x" size="20"></td>
+  </tr>
+  <tr>
+    <td width="22%"><font color="#0000FF">Alice sends hA
+     </font></td>
+    <td width="78%">
+    <input type="text" name="ha" id = "ha" size="20">
+    </td>
+  </tr>
+  <tr>
+    <td width="22%"><font color="#0000FF">Bob chooses y
+      </font></td>
+    <td width="78%"><input type="text" name="y" id = "y" size="20">
+        </td>
+  </tr>
+  <tr>
+    <td width="22%"><font color="#0000FF">Bob sends hB
+      </font></td>
+    <td width="78%"><input type="text" name="hb" id = "hb" size="20">
+        </td>
+  </tr>
+  <tr>
+    <td> <p name = "skey" value = "" >Alice and Bob sharing key = </p> </td>
+    <td> <textarea value = "ans" id = "ans" ></textarea> </td>
+  </tr>
+  <tr>
+    <td width="22%">
+        <input type="button" onclick="calculate(q.value,g.value,x.value,ha.value,y.value,hb.value,y.value)" value="Calculate" name="Calculate" ></td>
+        <td><input type="button" value="Clear Plaintext" name="Clear Plaintext" onclick="clearPlaintext()"></td>
+        <td><input type="button" value="Close" name="Close" onClick="window.close()"></td>
+    <td width="78%">&nbsp;</td>
+  </tr>
+</table>
+
+<p>&nbsp;</p>
+
+<script type="text/javascript">
+  
+/**
+ * Fast modular exponentiation for a ^ b mod n
+ * @returns {number}
+ */
+var fastModularExponentiation = function(fa, fb, fn) {
+  fa = fa % fn;
+  var result = 1;
+  var fx = fa;
+
+  while(fb > 0){
+    var leastSignificantBit = fb % 2;
+    fb = Math.floor(fb / 2);
+
+    if (leastSignificantBit == 1) {
+      result = result * fx;
+      result = result % fn;
+    }
+
+    fx = fx * fx;
+    fx = fx % fn;
+  }
+  return result;
+};
+
+  function calculate(inputq,inputg,inputx,inputha,inputy,inputhb){
+    var q = parseInt(inputq);
+    var g = parseInt(inputg);
+    var x = parseInt(inputx);
+    var ha = parseInt(inputha);
+    var y = parseInt(inputy);
+    var hb = parseInt(inputhb);
+
+
+    q = document.getElementById("q").value;
+    console.log(q);
+    console.log(x);
+    console.log(y);
+    ha = fastModularExponentiation(g,x,q);
+    hb = fastModularExponentiation(g,y,q);
+    
+    // for(i = 0, l = x; i < l; i++)
+    // {
+    //   hb = hb * hb;
+    // }
+
+    // for(i = 0, l = y; i < l; i++)
+    // {
+    //   ha = ha * ha;
+    // }
+    console.log(ha);
+    console.log(hb);
+
+    var sA = (hb * x) % q;
+    sA = fastModularExponentiation(hb,x,q)
+    console.log(sA);
+
+    // for(i = 0, l = x; i < l; i++)
+    // {
+    //   hb = hb * hb;
+    // }
+    
+    var sB = (ha * y) % q;
+    sB = fastModularExponentiation(ha,y,q)
+    console.log(sB);
+
+    // for(i = 0, l = x; i < l; i++)
+    // {
+    //   hb = hb * hb;
+    // }
+
+    var ans = 0;
+
+    if (sA == sB) {
+      ans = sA;
+    } else
+    {
+      ans = 0;
+    }
+    console.log(ans);
+    document.getElementById("ans").innerHTML = ans;
+    //return ans;
+  }
+
+//var plaintext = document.getElementById("plaintext").value;
+
+//document.getElementById("calResult").innerHTML = ciphertext;
+
+//1. Alice and Bob agree to use a modulus p = 23 and base g = 5 (which is a primitive root modulo 23).
+//2. Alice chooses a secret integer a = 4, then sends Bob A = g ^ a mod p
+//    * A = 54 mod 23 = 4
+//3. Bob chooses a secret integer b = 3, then sends Alice B = g ^ b mod p
+//    * B = 53 mod 23 = 10
+//4. Alice computes s = Ba mod p
+//    * s = 104 mod 23 = 18
+//5. Bob computes s = Ab mod p
+//    * s = 43 mod 23 = 18
+//6. Alice and Bob now share a secret (the number 18).
+//
+
+function clearPlaintext(){
+  document.getElementById("ans").innerHTML = "";
+}
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,82 @@
+<html>
+
+<head>
+<title>Lab10 Prototype of Diffie-Hellman Key Exchange</title>
+
+<script language="JavaScript">
+
+function openNew()
+{
+   var subWindow=window.open(
+"Output.htm", "Obj","HEIGHT=400,WIDTH=600,SCROLLBARS=YES");
+   var q=parseInt(document.Input.q.value);
+   var g=parseInt(document.Input.g.value);
+   var x=parseInt(document.Input.x.value);
+   var ha=parseInt(document.Input.ha.value);
+   var y=parseInt(document.Input.y.value);
+   var hb=parseInt(document.Input.hb.value);
+   subWindow.document.Output.q.value=q;
+   subWindow.document.Output.g.value=g;
+   subWindow.document.Output.x.value=x;
+   subWindow.document.Output.ha.value=ha;
+   subWindow.document.Output.y.value=y;
+   subWindow.document.Output.hb.value=hb;
+}
+
+</script>
+
+</head>
+
+<body>
+
+<p><font size="6">Input Form</font></p>
+<hr>
+<form name="Input">
+<table border="0" width="100%" height="109">
+  <tr>
+    <td width="24%" height="23">
+        <font color="#0000FF">Enter modulus q</font></td>
+    <td width="76%" height="23">
+         <input type="text" name="q" size="20"> 23</td>
+  </tr>
+  <tr>
+    <td width="24%" height="23"><font color="#0000FF">
+             Enter generator g</font></td>
+    <td width="76%" height="23">
+          <input type="text" name="g" size="20"> 5</td>
+  </tr>
+  <tr>
+    <td width="24%" height="20">
+           <font color="#0000FF">Alice chooses x</font></td>
+    <td width="76%" height="20"><input type="text" name="x" size="20"> 4</td>
+  </tr>
+  <tr>
+    <td width="24%" height="20">
+           <font color="#0000FF">Alice sends hA</font></td>
+    <td width="76%" height="20"><input type="text" name="ha" size="20"> 18</td>
+  </tr>
+  <tr>
+    <td width="24%" height="20">
+           <font color="#0000FF">Bob chooses y</font></td>
+    <td width="76%" height="20"><input type="text" name="y" size="20"> 3</td>
+  </tr>
+  <tr>
+    <td width="24%" height="20">
+           <font color="#0000FF">Bob sends hB</font></td>
+    <td width="76%" height="20"><input type="text" name="hb" size="20"> 18</td>
+  </tr>
+  <tr>
+    <td width="24%" height="19"><input type="button" 
+
+         value="Submit" name="button" onClick="openNew()"></td>
+    <td width="76%" height="19"><input type="reset" 
+
+          value="Reset" name="Reset"></td>
+  </tr>
+</table>
+</form>
+<p>&nbsp;</p>
+
+</body>
+
+</html>
