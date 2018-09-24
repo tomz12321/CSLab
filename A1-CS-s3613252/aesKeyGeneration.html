@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Simplified AES - Key Gerneration</title>
+
+</head>
+<body>
+<table width = 500px border = 1>
+<th colspan = 6> Simplified AES - Key Generation </th>
+<tr>
+	<td width = 20> Plaintext (16 bits) </td>
+	<td width = 20><input type="text" id ="inputS00" name="inputS00"></td>
+	<td width = 20><input type="text" id ="inputS01" name="inputS01"></td>
+	<td width = 20><input type="text" id ="inputS10" name="inputS10"></td>
+	<td width = 20><input type="text" id ="inputS11" name="inputS11"></td>
+	<td width = 20><input type="button" value="calculate" onclick="clearPlaintext()"></td>
+</tr>
+<tr>
+	<td width = 20> Key (16 bits) </td>
+	<td width = 20><input type="text" id ="keyS00" name="keyS00"></td>
+	<td width = 20><input type="text" id ="keyS01" name="keyS01"></td>
+	<td width = 20><input type="text" id ="keyS10" name="keyS10"></td>
+	<td width = 20><input type="text" id ="keyS11" name="keyS11"></td>
+	<td width = 20><input type="button" value="calculate" onclick="clearPlaintext()"></td>
+</tr>
+<tr>
+    <td> <p name = "skey" value = "" > Round 0 Key is </p> </td>
+    <td colspan = 4> <textarea width = 100 value = "ans" id = "ans" value="">ans</textarea> </td>
+    <td width = 20><input type="button" value="confirm" onclick="clearPlaintext()">
+</tr>
+<tr>
+    <td> <p name = "skey" value = "" > Round 1 Key is </p> </td>
+    <td colspan = 4> <textarea width = 100 value = "ans" id = "ans" value="">ans</textarea> </td>
+    <td width = 20><input type="button" value="confirm" onclick="clearPlaintext()">
+</tr>
+<tr>
+    <td> <p name = "skey" value = "" > Round 2 Key is </p> </td>
+    <td colspan = 4> <textarea width = 100 value = "ans" id = "ans" value="">ans</textarea> </td>
+    <td width = 20><input type="button" value="confirm" onclick="clearPlaintext()">
+</tr>
+<tr>
+    <td width = 20><input type="button" onclick="genKey0()" value="Calculate" name="Calculate" ></td>
+    <td width = 20><input type="button" value="Clear Plaintext" name="Clear Plaintext" onclick="clearPlaintext()"></td>
+    <td width = 20 colspan=4><input type="button" value="Close" name="Close" onClick="window.close()"></td>
+</tr>
+<tr>
+	<td colspan="6"><img height="930" width="950" src = "img/screenshot1.png"></td>
+</tr>
+</table>
+
+<script type="text/javascript">
+
+function function clearPlaintext(){
+	//implement here
+	document.getElementById("ans").innerHTML = "";
+}
+
+function function genKey0(w0,w1){
+	//implement here
+	document.getElementById("ans").innerHTML = "";
+}
+
+function function genKey1(w2,w3){
+	//implement here
+	document.getElementById("ans").innerHTML = "";
+}
+
+function function genKey2(w4,w5){
+	//implement here
+	document.getElementById("ans").innerHTML = "";
+}
+
+</script>
+</body>
+</html>
