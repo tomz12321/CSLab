@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Simplified AES</title>
+	<title>Simplified AES - Encryption</title>
 
 </head>
 <body>
 <table width = 500px border = 1>
-<th colspan = 6> Simplified AES </th>
+<th colspan = 6> Simplified AES - Encryption </th>
 <tr>
 	<td width = 20> Plaintext (16 bits) </td>
 	<td width = 20><input type="text" id ="inputS00" name="inputS00"></td>
@@ -137,6 +137,100 @@
 <script type="text/javascript">
 
 function clearPlaintext(){
+	document.getElementById("ans").innerHTML = "";
+}
+
+function xorKey0(s1,s2,s3,s4,cal1,cal2,cal3,cal4){
+	document.getElementById("ans").innerHTML = "";
+	
+	AddS1 = s1 ^ cal1;
+	AddS2 = s2 ^ cal2;
+	AddS3 = s3 ^ cal3;
+	AddS4 = s4 ^ cal4;
+	//set result s1,s2,s3,s4 to next process
+	s1 = AddS1;
+	s2 = AddS2;
+	s3 = AddS3;
+	s4 = AddS4;
+	document.getElementById("ansS00").innerHTML = s1;
+	document.getElementById("ansS01").innerHTML = s2;
+	document.getElementById("ansS10").innerHTML = s3;
+	document.getElementById("ansS11").innerHTML = s4; 
+}
+
+function xorKey1(s1,s2,s3,s4,cal1,cal2,cal3,cal4){
+	document.getElementById("ans").innerHTML = "";
+	
+	AddS1 = s1 ^ cal1;
+	AddS2 = s2 ^ cal2;
+	AddS3 = s3 ^ cal3;
+	AddS4 = s4 ^ cal4;
+	//set result s1,s2,s3,s4 to next process
+	s1 = AddS1;
+	s2 = AddS2;
+	s3 = AddS3;
+	s4 = AddS4;
+	document.getElementById("ansS00").innerHTML = s1;
+	document.getElementById("ansS01").innerHTML = s2;
+	document.getElementById("ansS10").innerHTML = s3;
+	document.getElementById("ansS11").innerHTML = s4; 
+}
+
+function xorKey2(s1,s2,s3,s4,cal1,cal2,cal3,cal4){
+	document.getElementById("ans").innerHTML = "";
+	
+	AddS1 = s1 ^ cal1;
+	AddS2 = s2 ^ cal2;
+	AddS3 = s3 ^ cal3;
+	AddS4 = s4 ^ cal4;
+	//set result s1,s2,s3,s4 to next process
+	s1 = AddS1;
+	s2 = AddS2;
+	s3 = AddS3;
+	s4 = AddS4;
+	document.getElementById("ansS00").innerHTML = s1;
+	document.getElementById("ansS01").innerHTML = s2;
+	document.getElementById("ansS10").innerHTML = s3;
+	document.getElementById("ansS11").innerHTML = s4; 
+}
+
+function sbox(s1,s2,s3,s4){
+	var arr = ["1001","0100","1010","1011","1101","0001","1000","0101","0110","0010","0000","0011","1100","1110","1111","0111"];
+	document.getElementById("ans").innerHTML = "";
+}
+
+//function mapResult
+	function mapResult(index){
+		//parseInt(number, base)
+		var v1 = index.charAt(0);
+		var v2 = index.charAt(1);
+		var v3 = index.charAt(2);
+		var v4 = index.charAt(3);
+
+
+		number = (Number(v1) * 8 + Number(v2) * 4 + Number(v3) * 2 + Number(v4) * 1);
+		//parseInt(number, base)
+		console.log(number);
+
+		//array[16]
+		var arr = ["1001","0100","1010","1011","1101","0001","1000","0101","0110","0010","0000","0011","1100","1110","1111","0111"];
+
+		var resultOutput = arr[number];
+		console.log(resultOutput);
+
+		//display result
+		document.getElementById("resulttext").innerHTML = resultOutput;
+
+	}
+
+function int[] mixColumn(s1,s2,s3,s4){
+	//implement here
+	document.getElementById("ans").innerHTML = "";
+
+}
+
+function int[] shiftRow(s1,s2,s3,s4){
+	//implement here
 	document.getElementById("ans").innerHTML = "";
 }
 

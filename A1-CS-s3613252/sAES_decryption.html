@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Simplified AES - Decryption</title>
+
+</head>
+<body>
+<table width = 500px border = 1>
+<th colspan = 6> Simplified AES - Decryption </th>
+<tr>
+	<td width = 20> Ciphertext (16 bits) </td>
+	<td width = 20><input type="text" id ="inputS00" name="inputS00">0010</td>
+	<td width = 20><input type="text" id ="inputS01" name="inputS01">0100</td>
+	<td width = 20><input type="text" id ="inputS10" name="inputS10">1110</td>
+	<td width = 20><input type="text" id ="inputS11" name="inputS11">1100</td>
+	<td width = 20><input type="button" value="calculate" onclick="clearPlaintext()"></td>
+</tr>
+<tr>
+	<td width = 20> Key (16 bits) <br/>Key2 w[w4,w5] </td>
+	<td width = 20><input type="text" id ="keyS00" name="keyS00">1000</td>
+	<td width = 20><input type="text" id ="keyS01" name="keyS01">0111</td>
+	<td width = 20><input type="text" id ="keyS10" name="keyS10">1010</td>
+	<td width = 20><input type="text" id ="keyS11" name="keyS11">1111</td>
+	<td width = 20><input type="button" value="calculate" onclick="clearPlaintext()"></td>
+</tr>
+<tr>
+	<td width = 20> Add round 2 key: <br/>Ciphertext XOR Key2 w[w4,w5] </td>
+	<td width = 20><input type="text" id ="keyS00" name="keyS00">1010</td>
+	<td width = 20><input type="text" id ="keyS01" name="keyS01">0011</td>
+	<td width = 20><input type="text" id ="keyS10" name="keyS10">0100</td>
+	<td width = 20><input type="text" id ="keyS11" name="keyS11">0011</td>
+	<td width = 20><input type="button" value="calculate" onclick="clearPlaintext()"></td>
+</tr>
+<tr>
+	<td width = 20> Inverse Shift Row [same as normal] </td>
+	<td width = 20><input type="text" id ="keyS00" name="keyS00">1010</td>
+	<td width = 20><input type="text" id ="keyS01" name="keyS01">0011</td>
+	<td width = 20><input type="text" id ="keyS10" name="keyS10">0100</td>
+	<td width = 20><input type="text" id ="keyS11" name="keyS11">0011</td>
+	<td width = 20><input type="button" value="calculate" onclick="clearPlaintext()"></td>
+</tr>
+<tr>
+	<td width = 20> Inverse Nibble Sub (use the inverse S-box)</td>
+	<td width = 20><input type="text" id ="keyS00" name="keyS00">0010</td>
+	<td width = 20><input type="text" id ="keyS01" name="keyS01">1011</td>
+	<td width = 20><input type="text" id ="keyS10" name="keyS10">0001</td>
+	<td width = 20><input type="text" id ="keyS11" name="keyS11">1011</td>
+	<td width = 20><input type="button" value="calculate" onclick="clearPlaintext()"></td>
+</tr>
+<tr>
+    <td> <p name = "skey" value = "" > Ciphertext is </p> </td>
+    <td colspan = 4> <textarea value = "ans" id = "ans" value="">ans</textarea>0010101100011011 </td>
+    <td width = 20><input type="button" value="confirm" onclick="clearPlaintext()">
+</tr>
+<tr>
+	<td width = 20> Key1 w[w2,w3] </td>
+	<td width = 20><input type="text" id ="key2S00" name="key2S00">1101</td>
+	<td width = 20><input type="text" id ="key2S01" name="key2S01">1101</td>
+	<td width = 20><input type="text" id ="key2S10" name="key2S10">0010</td>
+	<td width = 20><input type="text" id ="key2S11" name="key2S11">1000</td>
+	<td width = 20><input type="button" value="calculate" onclick="clearPlaintext()"></td>
+</tr>
+<tr>
+	<td width = 20> Add round 1 key: <br/>Ciphertext XOR Key1 w[w2,w3] </td>
+	<td width = 20><input type="text" id ="key2S00" name="key2S00">1111</td>
+	<td width = 20><input type="text" id ="key2S01" name="key2S01">0110</td>
+	<td width = 20><input type="text" id ="key2S10" name="key2S10">0011</td>
+	<td width = 20><input type="text" id ="key2S11" name="key2S11">0011</td>
+	<td width = 20><input type="button" value="calculate" onclick="clearPlaintext()"></td>
+</tr>
+<tr>
+	<td width = 20> Inverse Mix column [9,2,2,9] </td>
+	<td width = 20><input type="text" id ="keyS00" name="keyS00">0010</td>
+	<td width = 20><input type="text" id ="keyS01" name="keyS01">1110</td>
+	<td width = 20><input type="text" id ="keyS10" name="keyS10">1110</td>
+	<td width = 20><input type="text" id ="keyS11" name="keyS11">1110</td>
+	<td width = 20><input type="button" value="calculate" onclick="clearPlaintext()"></td>
+</tr>
+<tr>
+    <td> <p name = "skey" value = "" > Ciphertext is </p> </td>
+    <td colspan = 4> <textarea value = "ans" id = "ans" value="">ans</textarea>0010111011101110 </td>
+    <td width = 20><input type="button" value="confirm" onclick="clearPlaintext()">
+</tr>
+<tr>
+	<td width = 20> Inverse Shift rows [same as normal]</td>
+	<td width = 20><input type="text" id ="keyS00" name="keyS00">0010</td>
+	<td width = 20><input type="text" id ="keyS01" name="keyS01">1110</td>
+	<td width = 20><input type="text" id ="keyS10" name="keyS10">1110</td>
+	<td width = 20><input type="text" id ="keyS11" name="keyS11">1110</td>
+	<td width = 20><input type="button" value="calculate" onclick="clearPlaintext()"></td>
+</tr>
+<tr>
+	<td width = 20> Inverse Nibble Sub S-Box </td>
+	<td width = 20><input type="text" id ="keyS00" name="keyS00">1001</td>
+	<td width = 20><input type="text" id ="keyS01" name="keyS01">1101</td>
+	<td width = 20><input type="text" id ="keyS10" name="keyS10">1101</td>
+	<td width = 20><input type="text" id ="keyS11" name="keyS11">1101</td>
+	<td width = 20><input type="button" value="calculate" onclick="clearPlaintext()"></td>
+</tr>
+<tr>
+	<td width = 20> Add round 0 key: <br/>Ciphertext XOR Key0 w[w0,w1] </td>
+	<td width = 20><input type="text" id ="S00" name="S00">0100</td>
+	<td width = 20><input type="text" id ="S01" name="S01">1010</td>
+	<td width = 20><input type="text" id ="S10" name="S10">1111</td>
+	<td width = 20><input type="text" id ="S11" name="S11">0101</td>
+	<td width = 20><input type="button" value="calculate" onclick="clearPlaintext()"></td>
+</tr>
+<tr>
+	<td width = 20> Result of Add round 0 key: <br/>Ciphertext XOR Key0 w[w0,w1] </td>
+	<td width = 20><input type="text" id ="keyS00" name="key3S00">1101</td>
+	<td width = 20><input type="text" id ="keyS01" name="key3S01">0111</td>
+	<td width = 20><input type="text" id ="keyS10" name="key3S10">0010</td>
+	<td width = 20><input type="text" id ="keyS11" name="key3S11">1000</td>
+	<td width = 20><input type="button" value="calculate" onclick="clearPlaintext()"></td>
+</tr>
+<tr>
+    <td> <p name = "skey" value = "" > Plaintext is </p> </td>
+    <td colspan = 4> <textarea width = 100 value = "ans" id = "ans" value="">ans</textarea> 1101011100101000</td>
+    <td width = 20><input type="button" value="confirm" onclick="clearPlaintext()">
+</tr>
+<tr>
+    <td width = 20><input type="button" onclick="calculate(q.value,g.value,x.value,ha.value,y.value,hb.value,y.value)" value="Calculate" name="Calculate" ></td>
+    <td width = 20><input type="button" value="Clear Plaintext" name="Clear Plaintext" onclick="clearPlaintext()"></td>
+    <td width = 20 colspan=4><input type="button" value="Close" name="Close" onClick="window.close()"></td>
+</tr>
+<tr>
+	<td colspan="6"><img height="930" width="950" src = "img/screenshot4.png"></td>
+</tr>
+<tr>
+	<td colspan="6"><img height="630" width="950" src = "img/screenshot5.png"></td>
+</tr>
+<tr>
+	<td colspan="6"><img height="1030" width="950" src = "img/screenshot6.png"></td>
+</tr>
+</table>
+
+<script type="text/javascript">
+
+function clearPlaintext(){
+	//implement here
+	document.getElementById("ans").innerHTML = "";
+}
+
+function inverseShiftRow(){
+	//implement here
+	document.getElementById("ans").innerHTML = "";
+}
+
+function inverseNibbleSbox(){
+	//implement here
+	document.getElementById("ans").innerHTML = "";
+}
+
+function inverseMixColumn(){
+	//implement here
+	document.getElementById("ans").innerHTML = "";
+}
+
+function xorKey(){
+	//implement here
+	document.getElementById("ans").innerHTML = "";
+}
+
+</script>
+</body>
+</html>
