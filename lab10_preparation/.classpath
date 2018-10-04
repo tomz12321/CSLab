@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.launching.macosx.MacOSXType/Java SE 8 [1.8.0_121]"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="/Users/tomz123/CSLab/lab10/commons-codec-1.11/commons-codec-1.11.jar"/>
+	<classpathentry kind="lib" path="/Users/tomz123/CSLab/lab9/commons-crypto-1.0.0/commons-crypto-1.0.0.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
