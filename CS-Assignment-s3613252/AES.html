@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title> s3613252 AES and RSA Encryption - Decryption </title>
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+</head>
+<body>	
+<!-- div for AES -->
+		<div class="box-content" id="AES" style="display: block;" >
+			<form method="AES" action="" enctype="multipart/form-data">
+				<fieldset>
+					<table cellspacing="5" border="2">
+						<tbody>
+							<tr>
+									<p>s3613252 Jyh Woei Yang Assignment, AES and RSA Encryption - Decryption (in JS), Signature and Verification will be performed in Java.</p>
+							</tr>
+							<tr>
+								<th>
+									
+								</th>
+								<th>
+									AES Encryption and Decryption :
+								</th>
+								
+							</tr>
+							<tr> <!-- input plaintext -->
+								<td><label for="plaintext">Plaintext:</label></td>
+								<td><input type="text" id="plaintext" name="plaintext" /></td>
+							</tr>
+							<tr> <!-- input original key -->
+								<td><label for="orig_key">Original key:</label></td>
+								<td>
+									<input type="text" id="orig_key" name="orig_key" maxlength="16" value="0100101011110101"/>
+									<input type="button" id="encrypt" value="Encrypt ↓" />
+								</td>
+							</tr>
+							<tr> <!-- output w01 -->
+								<td><label for="w01">Key0 = w0w1:</label></td>
+								<td><output type="text" id="w01" name="w01"></output></td>
+							</tr>
+							<tr> <!-- output first round key -->
+								<td><label for="roundKey1">Initial Cipher 1 :</label></td>
+								<td><output type="text" id="roundKey1" name="roundKey1"></output></td>
+							</tr>						
+							<tr> <!-- matrix M -->
+								<td><label for="MatrixM">Matrix M:</label></td>
+								<td style="height:50px;word-wrap:break-word;word-break:break-all;">
+									<div class="matrix-left"></div>
+									<div class="matrix" id="MatrixM" style="width: 20px;">1&nbsp;&nbsp;4 4&nbsp;&nbsp;1</div>
+									<div class="matrix-right"></div>
+								</td>				
+							</tr>
+							<tr> <!-- output w23 -->
+								<td><label for="w23">Key1 = w2w3:</label></td>
+								<td><output type="text" id="w23" name="w23"></output></td>
+							</tr>							
+							<tr> <!-- output second round key -->
+								<td><label for="roundKey2">Initial Cipher 2:</label></td>
+								<td><output type="text" id="roundKey2" name="roundKey2"></output></td>
+							</tr>
+							<tr> <!-- output w45 -->
+								<td><label for="w45">Key2 = w4w5:</label></td>
+								<td><output type="text" id="w45" name="w45"></output></td>
+							</tr>							
+							<tr> <!-- output third round key -->
+								<td><label for="roundKey3">Initial Cipher 3:</label></td>
+								<td><output type="text" id="roundKey3" name="roundKey3"></output></td>
+							</tr>
+							<tr> <!-- output ciphertext -->
+								<td><label for="ciphertext">Ciphertext:</label></td>
+								<td>
+									<input type="text" id="ciphertext" name="ciphertext"></input>
+									<input type="button" id="decrypt" value="Decrypt ↓" />
+								</td>
+							</tr>
+							<tr> <!-- matrix M' -->
+								<td><label for="MatrixM_">Matrix M':</label></td>
+								<td style="height:50px;word-wrap:break-word;word-break:break-all;">
+									<div class="matrix-left"></div>
+									<div class="matrix" id="MatrixM_" style="width: 20px;">9&nbsp;&nbsp;2 2&nbsp;&nbsp;9</div>
+									<div class="matrix-right"></div>
+								</td>			
+							</tr>
+							<tr> <!-- output plaintext after decryption -->
+								<td><label for="plaintext_">Plaintext:</label></td>
+								<td><output type="text" id="plaintext_" name="plaintext_"></output></td>
+							</tr>
+							<tr>
+								<td colspan="6"><img height="930" width="950" src = "img/screenshot1.png"></td>
+							</tr>
+							<tr>
+								<td colspan="6"><img height="930" width="950" src = "img/screenshot2.png"></td>
+							</tr>
+							<tr>
+								<td colspan="6"><img height="930" width="950" src = "img/screenshot3.png"></td>
+							</tr>
+						</tbody>
+					</table>
+				</fieldset>	
+			</form>		
+		</div>
+
+		<script type="text/javascript">
+
+
+		function XOR(a, b)
+		{
+			var result = "";
+
+			for(var i=0; i<a.length; i++)
+
+				if((a.charAt(i)=='1'&&b.charAt(i)=='1')||(a.charAt(i)=='0'&&b.charAt(i)=='0'))
+					result += "0";
+				else
+					result += "1";
+
+			return result;		
+
+		} // end of XOR()
+
+
+		function substitute(input)
+		{
+			var output = "";
+			var table = ["1001","0100","1010","1011","1101","0001","1000","0101",
+						"0110","0010","0000","0011","1100","1110","1111","0111"];
+
+			for(var i=0; i<input.length; i+=4)
+			{
+				var x = parseInt(input.substring(i,i+4),2);
+				output += table[x];
+			}	
+
+			return output;
+
+		} // end of substitute()
+
+
+		function substituteReverse(input)
+		{
+			var output = "";
+			var table = ["1001","0100","1010","1011","1101","0001","1000","0101",
+						 "0110","0010","0000","0011","1100","1110","1111","0111"];
+			var order = ["0000","0001","0010","0011","0100","0101","0110","0111",
+						 "1000","1001","1010","1011","1100","1101","1110","1111"];
+
+			for(var i=0; i<input.length; i+=4)
+			{
+				var x = input.substring(i,i+4);
+				for(var j=0; j<table.length; j++)
+				{
+					if(table[j]==x)
+						output += order[j];
+				}
+			}	
+
+			return output;
+
+		} // end of substituteReverse()
+
+
+		function shiftRows(input)
+		{
+			var temp1 = input.substring(8,12), 
+				temp2 = input.substring(12,16),
+				input = input.substring(0,8)+temp2+temp1;
+
+			return input;
+
+		} // end of shiftRows()
+
+
+		function mixColumn(input)
+		{
+			var multiply = ["0000","0100","1000","1100","0011","0111","1011","1111","0110","0010","1110","1010","0101","0001","1101","1001"];
+
+			var inputArray = [input.substring(0,4),input.substring(4,8),input.substring(8,12),input.substring(12,16)];
+			var output = "";
+			var S00="", S01="", S10="", S11="";		
+			// do multiply with matrix M, result in four new elements for matrix S'
+			S00 = XOR(inputArray[0], multiply[parseInt(inputArray[2],2)]);
+			S01 = XOR(inputArray[1], multiply[parseInt(inputArray[3],2)]);
+			S10 = XOR(multiply[parseInt(inputArray[0],2)], inputArray[2]);
+			S11 = XOR(multiply[parseInt(inputArray[1],2)], inputArray[3]);	
+			// compile the result to the output binary string
+			output += S00 + S01 + S10 + S11;
+
+			return output;	
+
+		} // end of mixColumn()
+
+
+		function mixColumnReverse(input)
+		{
+			var multiply9 = ["0000","1001","0001","1000","0010","1011","0011","1010","0100","1101","0101","1100","0110","1111","0111","1110"];
+			var multiply2 = ["0000","0010","0100","0110","1000","1010","1100","1110","0011","0001","0111","0101","1011","1001","1111","1101"];
+			
+			var inputArray = [input.substring(0,4),input.substring(4,8),input.substring(8,12),input.substring(12,16)];
+			var output = "";
+			var S00="", S01="", S10="", S11="";		
+			// do multiply with matrix M, result in four new elements for matrix S'
+			S00 = XOR(multiply9[parseInt(inputArray[0],2)], multiply2[parseInt(inputArray[2],2)]);
+			S01 = XOR(multiply9[parseInt(inputArray[1],2)], multiply2[parseInt(inputArray[3],2)]);
+			S10 = XOR(multiply2[parseInt(inputArray[0],2)], multiply9[parseInt(inputArray[2],2)]);
+			S11 = XOR(multiply2[parseInt(inputArray[1],2)], multiply9[parseInt(inputArray[3],2)]);
+			// compile the result to the output binary string
+			output += S00 + S01 + S10 + S11;
+
+			return output;	
+
+		} // end of mixColumn()
+
+
+		function g(key)
+		{
+			var shiftKey = shiftRows(key);
+			var w = shiftKey.substring(0,8)+substitute(shiftKey.substring(8,16));
+			return w;
+
+		} // end of g()
+
+
+		
+		document.getElementById('encrypt').onclick = function()
+		{
+			var orig_key, w23, w45, roundKey3 = "", ciphertext = "";
+			var plaintext = document.getElementById('plaintext').value;
+			
+			orig_key = document.getElementById('orig_key').value;
+
+			var check = new RegExp("^[0-1]*$");
+			if(!check.test(orig_key))
+			{
+				alert("Incorrect original key!");
+				return;
+			}	
+
+			var plaintextArray = new Array();
+
+			if(plaintext.length%2==1)
+				plaintext = plaintext+"_";
+
+			// transfer state into ASCII code and store to an array
+			for(var i=0; i<plaintext.length; i+=2)
+			{
+				var binary1,binary2,binary;
+				binary1 = plaintext.charCodeAt(i).toString(2);
+				binary2 = plaintext.charCodeAt(i+1).toString(2);
+				do{
+					binary1 = "0"+binary1;
+				}while(binary1.length<8);
+				do{
+					binary2 = "0"+binary2;
+				}while(binary2.length<8);
+				binary = binary1 + binary2;
+				plaintextArray.push(binary);
+			}
+
+			// add round key 1
+			var roundKey1="";
+			for(var i=0; i<plaintextArray.length; i++)
+			{				
+				roundKey1 += XOR(plaintextArray[i],orig_key);
+			}
+			document.getElementById('w01').value = orig_key;
+			document.getElementById('roundKey1').value = roundKey1;
+
+			// add round key 2
+			var roundKey2 = "", w3="";
+			for(var i=0; i<roundKey1.length; i+=16)
+			{
+				var key2 = roundKey1.substring(i,i+16);
+				// substitution
+				var a = substitute(key2);
+				// shift rows
+				var b = shiftRows(a);
+				// mix column
+				var c = mixColumn(b);				
+				// do g function
+				var w01 = g(orig_key);
+				var w1 = orig_key.substring(8,16);
+				var w2 = XOR(XOR(orig_key.substring(0,8),w01.substring(8,16)),"10000000");
+				w3 = XOR(w2,w1);	
+				w23 = w2 + w3;	
+				roundKey2 += XOR(c, w23);
+			}			
+			document.getElementById('w23').value = w23;
+			document.getElementById('roundKey2').value = roundKey2;	
+			
+			// add rouund key 3
+			for(var i=0; i<roundKey2.length; i+=16)
+			{
+				var key3 = roundKey2.substring(i,i+16);
+				// substitution
+				var a = substitute(key3);
+				// shift rows
+				var b = shiftRows(a);
+				// do g function
+				w45 = g(w23);
+				var w4 = XOR(XOR(w23.substring(0,8),w45.substring(8,16)),"00110000");
+				var w5 = XOR(w4,w3);
+				var w45_ = w4 + w5;
+				roundKey3 += XOR(b,w45_);
+			}
+			document.getElementById('w45').value = w45_;
+			document.getElementById('roundKey3').value = roundKey3;	
+			
+			// transfer to ciphertext
+			for(var i=0; i<roundKey3.length; i+=8)
+			{
+				var code = parseInt(roundKey3.substring(i,i+8),2)%128;
+				ciphertext += String.fromCharCode(code);
+			}
+			document.getElementById('ciphertext').value = ciphertext;	
+
+		} // end of encrypt function()
+
+
+
+		document.getElementById('decrypt').onclick = function()
+		{
+			var r3 = document.getElementById('roundKey3').value;
+			var w45 = document.getElementById('w45').value;
+			var w23 = document.getElementById('w23').value;
+			var w01 = document.getElementById('w01').value;
+			var reverseRoundKey = "";
+
+			for(var i=0; i<r3.length; i+=16)
+			{
+				var a2 = XOR(r3.substring(i,i+16),w45); 
+				var b2 = shiftRows(a2);
+				var c2 = substituteReverse(b2);
+				var a1 = XOR(c2,w23);
+				var b1 = mixColumnReverse(a1);
+				var c1 = shiftRows(b1);
+				var d1 = substituteReverse(c1);
+				var a0 = XOR(w01,d1);
+				reverseRoundKey += a0;
+			}
+
+			// transfer round key from ASCII to plaintext
+			var plaintext_ = "";
+			for(var i=0; i<reverseRoundKey.length; i+=8)
+			{
+				var code_ = parseInt(reverseRoundKey.substring(i,i+8),2)%128;
+				if(code_==95)
+					plaintext_ += "";
+				else
+					plaintext_ += String.fromCharCode(code_);
+			}
+
+			document.getElementById('plaintext_').value = plaintext_;
+		}
+	</script>
+</body>
+</html>

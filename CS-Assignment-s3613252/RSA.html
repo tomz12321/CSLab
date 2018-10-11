@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title> s3613252 AES and RSA Encryption - Decryption </title>
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+</head>
+<body>
+<!-- div for RSA -->
+		<div id="RSA">
+			<form method="RSA" action="" enctype="multipart/form-data">
+				<fieldset>
+					<table cellspacing="5" border="1">
+						<tbody>
+							<tr>
+								<th>
+									
+								</th>
+								</th>
+									<p>s3613252 Jyh Woei Yang Assignment,  AES and RSA Encryption - Decryption (in JS), Signature and Verification will be performed in Java.</p>
+								</th>
+							</tr>
+							<tr> <!-- prime p -->
+								<td><label for="p">prime p:</label></td>
+								<td>
+									<output type="text" id="p" name="prime"></output>
+								</td>
+							</tr>
+							<tr> <!-- prime q -->
+								<td><label for="q">prime q:</label></td>
+								<td>
+									<output type="text" id="q" name="prime"></output>
+									<input type="button" id="generatePQ" name="generatePQ" value="Click to generate prime p and q"></input>
+								</td>
+							</tr>
+							<tr> <!-- n=p*q -->
+								<td><label for="n">n=p*q:</label></td>
+								<td><output id="n" /></td>				
+							</tr>
+							<tr> <!-- Φ(n)=(p-1)(q-1) -->
+								<td><label for="Φ(n)">Φ(n)=(p-1)*(q-1):</label></td>
+								<td><output id="Φ(n)" /></td>				
+							</tr>
+							<tr> <!-- e -->
+								<td><label for="e">e:</label></td>
+								<td>
+									<output id="e"></output>
+									<input type="button" id="generateE" name="generateE" value="Click to generate public key e"></input>
+								</td>			
+							</tr>
+							<tr> <!-- d -->
+								<td><label for="d">d:</label></td>
+								<td>
+									<output id="d"></output>
+									<input type="button" id="generateD" name="generateD" value="Click to show private key d"></input>
+								</td>			
+							</tr>	
+							<tr> <!-- plaintext -->
+								<td><label for="plaintextRSA">plaintext:</label></td>
+								<td>
+									<input type="text" id="plaintextRSA" name="plaintextRSA" />
+									<input type="button" id="encryptRSA" value="Encrypt" />
+								</td>			
+							</tr>	
+							<tr> <!-- ciphertext -->
+								<td><label for="ciphertextRSA">ciphertext:</label></td>
+								<td>
+									<input type="text" id="ciphertextRSA" name="ciphertextRSA" />
+									<input type="button" id="decryptRSA" value="Decrypt" />
+									<input type="button" id="clear" value="Clear plaintext" />
+								</td>			
+							</tr>		
+						</tbody>
+					</table>	
+				</fieldset>	
+			</form>	
+		</div>
+
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		<!-- This is the last step. We need to download the latest jQuery version and copy the link in the body section. Here, I have the link which need to write before the bootstrap.min.js script. -->
+		<script src= http://code.jquery.com/jquery-2.1.4.min.js> </script>
+
+		<script type="text/javascript">
+
+		function isPrime(num)
+		{
+			// check if the number is less than 1
+			if(num<=1)
+				return false;
+			// check if the number is prime 2 or 3
+			else if(num <= 3)
+				return true;
+			// check if the number that is greater than 3 is a prime
+			else if(num%2==0 || num%3==0)
+				return false;
+			var sqrtRoot = Math.floor(Math.sqrt(num));
+			var i = 5;
+			while(i <= sqrtRoot)
+			{
+				if(num%i==0 || num%(i+2)==0)
+				{
+					return false;
+				}
+			 	i += 6;	
+			}
+			return true;
+		}
+
+
+		// find the gcd
+		function GCD(a,b)
+		{
+			var temp = 0;
+			// compare a and b, if a < b, then do the reverse
+			if(a < b)
+			{
+				temp = b;
+				b = a;
+				a = temp;
+			}
+			while(b!=0)
+			{
+				temp = a;
+				a = b;
+				b = temp % b;
+			}
+			return a;
+		} // end of GCD()
+
+
+		document.getElementById('generatePQ').onclick = function()
+		{
+			var p,q;
+			var array = new Array();
+			for(var i=200; i<=500; i++)
+			{
+				if(isPrime(i))
+					array.push(i);
+			}
+			p = array[Math.floor(Math.random()*array.length)];
+			document.getElementById('p').value = p;
+			do{
+				q = array[Math.floor(Math.random()*array.length)];
+			}while(p==q);
+
+			document.getElementById('q').value = q;
+
+			document.getElementById('n').value = p*q;
+
+			document.getElementById('Φ(n)').value = (p-1)*(q-1);
+		}
+
+
+		document.getElementById('generateE').onclick = function()
+		{
+			var e;
+			var fn = parseInt(document.getElementById('Φ(n)').value);
+
+			do{
+				e = Math.floor(Math.random()*fn)+100;
+			}while(GCD(e,fn)!=1);
+
+			document.getElementById('e').value = e;
+		}
+
+
+		document.getElementById('generateD').onclick = function()
+		{
+			var d;
+			var e = parseInt(document.getElementById('e').value),
+				fn = parseInt(document.getElementById('Φ(n)').value);
+			do{
+				d = Math.floor(Math.random()*fn);
+			}while(e*d%fn != 1);
+
+			document.getElementById('d').value = d;
+		}
+
+
+
+		function exponentiation(a,m,n){
+			// convert e to binary
+			a = a.toString(2); 
+
+			var power = "", c = 1;
+
+			for(var i=a.length-1; i>=0; i--)
+			{
+				power += a.charAt(i);
+			}
+			// fast exponentiation
+			if(power.charAt(0)=='1')
+				c = c * (m % n);
+
+			for(var j=1; j<power.length; j++)
+			{
+				if(power.charAt(j)=='1')
+				{
+					var count = j, temp = m;
+					while(count>0)
+					{
+						temp = Math.pow(temp,2) % n;
+						count--;
+					}
+					c = (c * temp) % n;
+				}								
+			}
+			return c;
+		}
+
+		document.getElementById('encryptRSA').onclick = function()
+		{
+			var m = parseInt(document.getElementById('plaintextRSA').value),
+				e = parseInt(document.getElementById('e').value),
+				n = parseInt(document.getElementById('n').value);
+			var c = exponentiation(e,m,n);
+
+			document.getElementById('ciphertextRSA').value = c;
+		}
+
+
+		document.getElementById('decryptRSA').onclick = function()
+		{
+			var c = parseInt(document.getElementById('ciphertextRSA').value),
+				d = parseInt(document.getElementById('d').value),
+				n = parseInt(document.getElementById('n').value);
+			var m = exponentiation(d,c,n);
+
+			document.getElementById('plaintextRSA').value = m;
+		}
+
+
+		document.getElementById('clear').onclick = function()
+		{
+			document.getElementById('plaintextRSA').value= "";
+		}
+
+	</script>
+</body>
+</html>

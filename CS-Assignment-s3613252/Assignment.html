@@ -1,0 +1,675 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title> s3613252 AES and RSA Encryption - Decryption </title>
+	<style type="text/css">
+		body,ul{margin:0px;padding:0px;font-size:14px;}
+		body{background-color:white;}
+
+		#box{width:2000px;height:645px;margin:40px auto 0;}
+		#box ul{list-style-type:none;}
+		#box li{width:180px;line-height:45px;text-align:left;float:left;margin-right:5px;background-color:#99FFFF;color:#404040;
+				border-top-left-radius:5px;border-top-right-radius:5px;cursor:pointer;font-weight:bold;}
+		 #box.box-content{width:1000px;height:400px;background-color:#CCFFCC;clear:both;display:none;
+						  border-bottom-left-radius:5px;border-top-right-radius:5px;border-bottom-right-radius:5px;text-align:center;}
+
+		fieldset{border: 1;font-size: 12px;}
+		table{height: auto;text-align: left;border: none;word-break:break-all; word-wrap:break-all;}
+		td:first-child{width: 15%;}	
+		input[type="text"]{width: 300px;}
+		input[type="button"]{}
+		.matrix-left{display: inline-block;width: 5px;height: 25px;background: transparent;border: 1px solid black;border-right: white;}	
+		.matrix-right{display: inline-block;width: 5px;height: 25px;background: transparent;border: 1px solid black;border-left: white;}
+		.matrix{display: inline-block;width: 60px;height: 30px;border: none;word-wrap:break-word;word-break: break-all;}
+	</style>
+</head>
+<body>
+<!-- 	<div id="box"> -->
+	
+		<!-- div for AES -->
+		<div class="box-content" id="AES" style="display: block;" >
+			<form method="AES" action="" enctype="multipart/form-data">
+				<fieldset>
+					<table cellspacing="5" border="0">
+						<tbody>
+							<tr>
+								<th>
+									
+								</th>
+								<th>
+									AES Encryption and Decryption :
+								</th>
+								<th>
+
+								</th>
+									s3613252 Jyh Woei Yang Assignment,  AES and RSA Encryption - Decryption (in JS), Signature and Verification will be performed in Java.
+								</th>
+							</tr>
+							<tr> <!-- input plaintext -->
+								<td><label for="plaintext">Plaintext:</label></td>
+								<td><input type="text" id="plaintext" name="plaintext" /></td>
+							</tr>
+							<tr> <!-- input original key -->
+								<td><label for="orig_key">Original key:</label></td>
+								<td>
+									<input type="text" id="orig_key" name="orig_key" maxlength="16" value="0100101011110101"/>
+									<input type="button" id="encrypt" value="Encrypt ↓" />
+								</td>
+							</tr>
+							<tr> <!-- output w01 -->
+								<td><label for="w01">Key0 = w0w1:</label></td>
+								<td><output type="text" id="w01" name="w01"></output></td>
+							</tr>
+							<tr> <!-- output first round key -->
+								<td><label for="roundKey1">Initial Cipher 1 :</label></td>
+								<td><output type="text" id="roundKey1" name="roundKey1"></output></td>
+							</tr>						
+							<tr> <!-- matrix M -->
+								<td><label for="MatrixM">Matrix M:</label></td>
+								<td style="height:50px;word-wrap:break-word;word-break:break-all;">
+									<div class="matrix-left"></div>
+									<div class="matrix" id="MatrixM" style="width: 20px;">1&nbsp;&nbsp;4 4&nbsp;&nbsp;1</div>
+									<div class="matrix-right"></div>
+								</td>				
+							</tr>
+							<tr> <!-- output w23 -->
+								<td><label for="w23">Key1 = w2w3:</label></td>
+								<td><output type="text" id="w23" name="w23"></output></td>
+							</tr>							
+							<tr> <!-- output second round key -->
+								<td><label for="roundKey2">Initial Cipher 2:</label></td>
+								<td><output type="text" id="roundKey2" name="roundKey2"></output></td>
+							</tr>
+							<tr> <!-- output w45 -->
+								<td><label for="w45">Key2 = w4w5:</label></td>
+								<td><output type="text" id="w45" name="w45"></output></td>
+							</tr>							
+							<tr> <!-- output third round key -->
+								<td><label for="roundKey3">Initial Cipher 3:</label></td>
+								<td><output type="text" id="roundKey3" name="roundKey3"></output></td>
+							</tr>
+							<tr> <!-- output ciphertext -->
+								<td><label for="ciphertext">Ciphertext:</label></td>
+								<td>
+									<input type="text" id="ciphertext" name="ciphertext"></input>
+									<input type="button" id="decrypt" value="Decrypt ↓" />
+								</td>
+							</tr>
+							<tr> <!-- matrix M' -->
+								<td><label for="MatrixM_">Matrix M':</label></td>
+								<td style="height:50px;word-wrap:break-word;word-break:break-all;">
+									<div class="matrix-left"></div>
+									<div class="matrix" id="MatrixM_" style="width: 20px;">9&nbsp;&nbsp;2 2&nbsp;&nbsp;9</div>
+									<div class="matrix-right"></div>
+								</td>			
+							</tr>
+							<tr> <!-- output plaintext after decryption -->
+								<td><label for="plaintext_">Plaintext:</label></td>
+								<td><output type="text" id="plaintext_" name="plaintext_"></output></td>
+							</tr>
+						</tbody>
+					</table>
+				</fieldset>	
+			</form>		
+		</div>
+		<!-- div for RSA -->
+		<div class="box-content" id="RSA">
+			<form method="RSA" action="" enctype="multipart/form-data">
+				<fieldset>
+					<table cellspacing="5">
+						<tbody>
+							<tr>
+								<th>
+									
+								</th>
+								<th border="1">
+									RSA Implementation :
+								</th>
+							</tr>
+							<tr> <!-- prime p -->
+								<td><label for="p">prime p:</label></td>
+								<td>
+									<output type="text" id="p" name="prime"></output>
+								</td>
+							</tr>
+							<tr> <!-- prime q -->
+								<td><label for="q">prime q:</label></td>
+								<td>
+									<output type="text" id="q" name="prime"></output>
+									<input type="button" id="generatePQ" name="generatePQ" value="← generate prime p and q"></input>
+								</td>
+							</tr>
+							<tr> <!-- n=p*q -->
+								<td><label for="n">n=p*q:</label></td>
+								<td><output id="n" /></td>				
+							</tr>
+							<tr> <!-- Φ(n)=(p-1)(q-1) -->
+								<td><label for="Φ(n)">Φ(n)=(p-1)*(q-1):</label></td>
+								<td><output id="Φ(n)" /></td>				
+							</tr>
+							<tr> <!-- e -->
+								<td><label for="e">e:</label></td>
+								<td>
+									<output id="e"></output>
+									<input type="button" id="generateE" name="generateE" value="← generate public key e"></input>
+								</td>			
+							</tr>
+							<tr> <!-- d -->
+								<td><label for="d">d:</label></td>
+								<td>
+									<output id="d"></output>
+									<input type="button" id="generateD" name="generateD" value="← show private key d"></input>
+								</td>			
+							</tr>	
+							<tr> <!-- plaintext -->
+								<td><label for="plaintextRSA">plaintext:</label></td>
+								<td>
+									<input type="text" id="plaintextRSA" name="plaintextRSA" />
+									<input type="button" id="encryptRSA" value="Encrypt" />
+								</td>			
+							</tr>	
+							<tr> <!-- ciphertext -->
+								<td><label for="ciphertextRSA">ciphertext:</label></td>
+								<td>
+									<input type="text" id="ciphertextRSA" name="ciphertextRSA" />
+									<input type="button" id="decryptRSA" value="Decrypt" />
+									<input type="button" id="clear" value="Clear plaintext" />
+								</td>			
+							</tr>	
+							<tr> <!-- signature -->
+								<td><label for="signature">Signature:</label></td>
+								<td>
+									<input type="text" id="signature" name="signature"></input>
+									<input type="button" id="signing" value="generate signature"></input>
+								</td>			
+							</tr>
+							<tr>
+								<td><label for="verifying">===Verifying===</label></td>
+							</tr>
+							<tr> <!-- input the number -->
+								<td><label for="inputNumber">Input the plaintext:</label></td>
+								<td>
+									<input type="text" id="inputNumber" name="inputNumber"></input>
+									<input type="button" id="copyInput" value="copy the plaintext"></input>
+								</td>			
+							</tr>	
+							<tr> <!-- input the signature -->
+								<td><label for="inputSig">Input the signature:</label></td>
+								<td>
+									<input type="text" id="inputSig" name="inputSig"></input>
+									<input type="button" id="copySig" value="copy the signature"></input>
+								</td>			
+							</tr>		
+							<tr> <!-- verify -->
+								<td><label for="verifying">Verifying:</label></td>
+								<td>
+									<output id="verifying" name="verifying"></output>
+									<input type="button" id="verify" value="verify"></input>
+								</td>			
+							</tr>	
+						</tbody>
+					</table>	
+				</fieldset>	
+			</form>	
+		</div>
+
+
+	<script type="text/javascript">
+
+
+		function XOR(a, b)
+		{
+			var result = "";
+
+			for(var i=0; i<a.length; i++)
+
+				if((a.charAt(i)=='1'&&b.charAt(i)=='1')||(a.charAt(i)=='0'&&b.charAt(i)=='0'))
+					result += "0";
+				else
+					result += "1";
+
+			return result;		
+
+		} // end of XOR()
+
+
+		function substitute(input)
+		{
+			var output = "";
+			var table = ["1001","0100","1010","1011","1101","0001","1000","0101",
+						"0110","0010","0000","0011","1100","1110","1111","0111"];
+
+			for(var i=0; i<input.length; i+=4)
+			{
+				var x = parseInt(input.substring(i,i+4),2);
+				output += table[x];
+			}	
+
+			return output;
+
+		} // end of substitute()
+
+
+		function substituteReverse(input)
+		{
+			var output = "";
+			var table = ["1001","0100","1010","1011","1101","0001","1000","0101",
+						 "0110","0010","0000","0011","1100","1110","1111","0111"];
+			var order = ["0000","0001","0010","0011","0100","0101","0110","0111",
+						 "1000","1001","1010","1011","1100","1101","1110","1111"];
+
+			for(var i=0; i<input.length; i+=4)
+			{
+				var x = input.substring(i,i+4);
+				for(var j=0; j<table.length; j++)
+				{
+					if(table[j]==x)
+						output += order[j];
+				}
+			}	
+
+			return output;
+
+		} // end of substituteReverse()
+
+
+		function shiftRows(input)
+		{
+			var temp1 = input.substring(8,12), 
+				temp2 = input.substring(12,16),
+				input = input.substring(0,8)+temp2+temp1;
+
+			return input;
+
+		} // end of shiftRows()
+
+
+		function mixColumn(input)
+		{
+			var multiply = ["0000","0100","1000","1100","0011","0111","1011","1111","0110","0010","1110","1010","0101","0001","1101","1001"];
+
+			var inputArray = [input.substring(0,4),input.substring(4,8),input.substring(8,12),input.substring(12,16)];
+			var output = "";
+			var S00="", S01="", S10="", S11="";		
+			// do multiply with matrix M, result in four new elements for matrix S'
+			S00 = XOR(inputArray[0], multiply[parseInt(inputArray[2],2)]);
+			S01 = XOR(inputArray[1], multiply[parseInt(inputArray[3],2)]);
+			S10 = XOR(multiply[parseInt(inputArray[0],2)], inputArray[2]);
+			S11 = XOR(multiply[parseInt(inputArray[1],2)], inputArray[3]);	
+			// compile the result to the output binary string
+			output += S00 + S01 + S10 + S11;
+
+			return output;	
+
+		} // end of mixColumn()
+
+
+		function mixColumnReverse(input)
+		{
+			var multiply9 = ["0000","1001","0001","1000","0010","1011","0011","1010","0100","1101","0101","1100","0110","1111","0111","1110"];
+			var multiply2 = ["0000","0010","0100","0110","1000","1010","1100","1110","0011","0001","0111","0101","1011","1001","1111","1101"];
+			
+			var inputArray = [input.substring(0,4),input.substring(4,8),input.substring(8,12),input.substring(12,16)];
+			var output = "";
+			var S00="", S01="", S10="", S11="";		
+			// do multiply with matrix M, result in four new elements for matrix S'
+			S00 = XOR(multiply9[parseInt(inputArray[0],2)], multiply2[parseInt(inputArray[2],2)]);
+			S01 = XOR(multiply9[parseInt(inputArray[1],2)], multiply2[parseInt(inputArray[3],2)]);
+			S10 = XOR(multiply2[parseInt(inputArray[0],2)], multiply9[parseInt(inputArray[2],2)]);
+			S11 = XOR(multiply2[parseInt(inputArray[1],2)], multiply9[parseInt(inputArray[3],2)]);
+			// compile the result to the output binary string
+			output += S00 + S01 + S10 + S11;
+
+			return output;	
+
+		} // end of mixColumn()
+
+
+		function g(key)
+		{
+			var shiftKey = shiftRows(key);
+			var w = shiftKey.substring(0,8)+substitute(shiftKey.substring(8,16));
+			return w;
+
+		} // end of g()
+
+
+		
+		document.getElementById('encrypt').onclick = function()
+		{
+			var orig_key, w23, w45, roundKey3 = "", ciphertext = "";
+			var plaintext = document.getElementById('plaintext').value;
+			
+			orig_key = document.getElementById('orig_key').value;
+
+			var check = new RegExp("^[0-1]*$");
+			if(!check.test(orig_key))
+			{
+				alert("Incorrect original key!");
+				return;
+			}	
+
+			var plaintextArray = new Array();
+
+			if(plaintext.length%2==1)
+				plaintext = plaintext+"_";
+
+			// transfer state into ASCII code and store to an array
+			for(var i=0; i<plaintext.length; i+=2)
+			{
+				var binary1,binary2,binary;
+				binary1 = plaintext.charCodeAt(i).toString(2);
+				binary2 = plaintext.charCodeAt(i+1).toString(2);
+				do{
+					binary1 = "0"+binary1;
+				}while(binary1.length<8);
+				do{
+					binary2 = "0"+binary2;
+				}while(binary2.length<8);
+				binary = binary1 + binary2;
+				plaintextArray.push(binary);
+			}
+
+			// add round key 1
+			var roundKey1="";
+			for(var i=0; i<plaintextArray.length; i++)
+			{				
+				roundKey1 += XOR(plaintextArray[i],orig_key);
+			}
+			document.getElementById('w01').value = orig_key;
+			document.getElementById('roundKey1').value = roundKey1;
+
+			// add round key 2
+			var roundKey2 = "", w3="";
+			for(var i=0; i<roundKey1.length; i+=16)
+			{
+				var key2 = roundKey1.substring(i,i+16);
+				// substitution
+				var a = substitute(key2);
+				// shift rows
+				var b = shiftRows(a);
+				// mix column
+				var c = mixColumn(b);				
+				// do g function
+				var w01 = g(orig_key);
+				var w1 = orig_key.substring(8,16);
+				var w2 = XOR(XOR(orig_key.substring(0,8),w01.substring(8,16)),"10000000");
+				w3 = XOR(w2,w1);	
+				w23 = w2 + w3;	
+				roundKey2 += XOR(c, w23);
+			}			
+			document.getElementById('w23').value = w23;
+			document.getElementById('roundKey2').value = roundKey2;	
+			
+			// add rouund key 3
+			for(var i=0; i<roundKey2.length; i+=16)
+			{
+				var key3 = roundKey2.substring(i,i+16);
+				// substitution
+				var a = substitute(key3);
+				// shift rows
+				var b = shiftRows(a);
+				// do g function
+				w45 = g(w23);
+				var w4 = XOR(XOR(w23.substring(0,8),w45.substring(8,16)),"00110000");
+				var w5 = XOR(w4,w3);
+				var w45_ = w4 + w5;
+				roundKey3 += XOR(b,w45_);
+			}
+			document.getElementById('w45').value = w45_;
+			document.getElementById('roundKey3').value = roundKey3;	
+			
+			// transfer to ciphertext
+			for(var i=0; i<roundKey3.length; i+=8)
+			{
+				var code = parseInt(roundKey3.substring(i,i+8),2)%128;
+				ciphertext += String.fromCharCode(code);
+			}
+			document.getElementById('ciphertext').value = ciphertext;	
+
+		} // end of encrypt function()
+
+
+
+		document.getElementById('decrypt').onclick = function()
+		{
+			var r3 = document.getElementById('roundKey3').value;
+			var w45 = document.getElementById('w45').value;
+			var w23 = document.getElementById('w23').value;
+			var w01 = document.getElementById('w01').value;
+			var reverseRoundKey = "";
+
+			for(var i=0; i<r3.length; i+=16)
+			{
+				var a2 = XOR(r3.substring(i,i+16),w45); 
+				var b2 = shiftRows(a2);
+				var c2 = substituteReverse(b2);
+				var a1 = XOR(c2,w23);
+				var b1 = mixColumnReverse(a1);
+				var c1 = shiftRows(b1);
+				var d1 = substituteReverse(c1);
+				var a0 = XOR(w01,d1);
+				reverseRoundKey += a0;
+			}
+
+			// transfer round key from ASCII to plaintext
+			var plaintext_ = "";
+			for(var i=0; i<reverseRoundKey.length; i+=8)
+			{
+				var code_ = parseInt(reverseRoundKey.substring(i,i+8),2)%128;
+				if(code_==95)
+					plaintext_ += "";
+				else
+					plaintext_ += String.fromCharCode(code_);
+			}
+
+			document.getElementById('plaintext_').value = plaintext_;
+		}
+
+
+		function isPrime(num)
+		{
+			// check if the number is less than 1
+			if(num<=1)
+				return false;
+			// check if the number is prime 2 or 3
+			else if(num <= 3)
+				return true;
+			// check if the number that is greater than 3 is a prime
+			else if(num%2==0 || num%3==0)
+				return false;
+			var sqrtRoot = Math.floor(Math.sqrt(num));
+			var i = 5;
+			while(i <= sqrtRoot)
+			{
+				if(num%i==0 || num%(i+2)==0)
+				{
+					return false;
+				}
+			 	i += 6;	
+			}
+			return true;
+		}
+
+
+		// find the gcd
+		function GCD(a,b)
+		{
+			var temp = 0;
+			// compare a and b, if a < b, then do the reverse
+			if(a < b)
+			{
+				temp = b;
+				b = a;
+				a = temp;
+			}
+			while(b!=0)
+			{
+				temp = a;
+				a = b;
+				b = temp % b;
+			}
+			return a;
+		} // end of GCD()
+
+
+		document.getElementById('generatePQ').onclick = function()
+		{
+			var p,q;
+			var array = new Array();
+			for(var i=200; i<=500; i++)
+			{
+				if(isPrime(i))
+					array.push(i);
+			}
+			p = array[Math.floor(Math.random()*array.length)];
+			document.getElementById('p').value = p;
+			do{
+				q = array[Math.floor(Math.random()*array.length)];
+			}while(p==q);
+
+			document.getElementById('q').value = q;
+
+			document.getElementById('n').value = p*q;
+
+			document.getElementById('Φ(n)').value = (p-1)*(q-1);
+		}
+
+
+		document.getElementById('generateE').onclick = function()
+		{
+			var e;
+			var fn = parseInt(document.getElementById('Φ(n)').value);
+
+			do{
+				e = Math.floor(Math.random()*fn)+100;
+			}while(GCD(e,fn)!=1);
+
+			document.getElementById('e').value = e;
+		}
+
+
+		document.getElementById('generateD').onclick = function()
+		{
+			var d;
+			var e = parseInt(document.getElementById('e').value),
+				fn = parseInt(document.getElementById('Φ(n)').value);
+			do{
+				d = Math.floor(Math.random()*fn);
+			}while(e*d%fn != 1);
+
+			document.getElementById('d').value = d;
+		}
+
+
+
+		function exponentiation(a,m,n){
+			// convert e to binary
+			a = a.toString(2); 
+
+			var power = "", c = 1;
+
+			for(var i=a.length-1; i>=0; i--)
+			{
+				power += a.charAt(i);
+			}
+			// fast exponentiation
+			if(power.charAt(0)=='1')
+				c = c * (m % n);
+
+			for(var j=1; j<power.length; j++)
+			{
+				if(power.charAt(j)=='1')
+				{
+					var count = j, temp = m;
+					while(count>0)
+					{
+						temp = Math.pow(temp,2) % n;
+						count--;
+					}
+					c = (c * temp) % n;
+				}								
+			}
+			return c;
+		}
+
+
+		document.getElementById('signing').onclick = function()
+		{
+			var m = parseInt(document.getElementById('plaintextRSA').value),
+				d = parseInt(document.getElementById('d').value),
+				n = parseInt(document.getElementById('n').value);
+			var s = exponentiation(d,m,n);
+
+			document.getElementById('signature').value = s;
+
+		}
+
+		document.getElementById('verify').onclick = function()
+		{
+			var s = parseInt(document.getElementById('inputSig').value),
+				e = parseInt(document.getElementById('e').value),
+				n = parseInt(document.getElementById('n').value),
+				m = parseInt(document.getElementById('inputNumber').value);
+			var v = exponentiation(e,s,n);
+			if(v==m)
+			{
+				document.getElementById('verifying').value = "TRUE";
+				document.getElementById('verifying').style = "background-color: #bef957";
+			}	
+			else
+			{
+				document.getElementById('verifying').value = "FALSE";
+				document.getElementById('verifying').style = "background-color: #f96b8a";
+			}	
+
+		}
+
+
+		document.getElementById('copyInput').onclick = function()
+		{
+			var m = document.getElementById('plaintextRSA').value;
+			document.getElementById('inputNumber').value = m;
+		}
+
+
+		document.getElementById('copySig').onclick = function()
+		{
+			var s = document.getElementById('signature').value;
+			document.getElementById('inputSig').value = s;
+		}
+
+
+		document.getElementById('encryptRSA').onclick = function()
+		{
+			var m = parseInt(document.getElementById('plaintextRSA').value),
+				e = parseInt(document.getElementById('e').value),
+				n = parseInt(document.getElementById('n').value);
+			var c = exponentiation(e,m,n);
+
+			document.getElementById('ciphertextRSA').value = c;
+		}
+
+
+		document.getElementById('decryptRSA').onclick = function()
+		{
+			var c = parseInt(document.getElementById('ciphertextRSA').value),
+				d = parseInt(document.getElementById('d').value),
+				n = parseInt(document.getElementById('n').value);
+			var m = exponentiation(d,c,n);
+
+			document.getElementById('plaintextRSA').value = m;
+		}
+
+
+		document.getElementById('clear').onclick = function()
+		{
+			document.getElementById('plaintextRSA').value= "";
+		}
+
+
+
+	</script>
+</body>
+</html>
