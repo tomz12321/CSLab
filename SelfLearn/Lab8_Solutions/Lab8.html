@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		  
+	
+	<script type="text/javascript" src="jquery-ui/jquery-1.11.3.js"></script>
+	<script type="text/javascript" charset="utf8" src="jquery-ui/jquery-ui.js"></script>
+
+
+    
+	  
+	
+	<link rel="stylesheet" type="text/css" href="jquery-ui/jquery-ui.css">
+	<link rel="stylesheet" type="text/css" href="jquery-ui/jquery-ui.theme.css">
+
+	
+
+
+	<title>Cloud Security Lab 8</title>
+	
+  <script>
+  $( function() {
+    $( "#accordion" ).accordion({
+        heightStyle: "content"
+
+    });
+  } );
+  </script>
+
+
+
+<script>
+
+
+function fastModExp(m, e, n){
+    var eBin = e.toString(2).split("");
+    var eLen = eBin.length;
+    //alert("e:"+eBin);
+    var i = 0;
+    var resTotal = 1;
+    while(i<eLen){
+        if(i == 0){
+            result = m % n;
+        }else{
+            result = result * result;
+            result = result % n;
+        }
+        if(eBin[eLen-1-i] == 1){
+            resTotal = resTotal * result;
+            resTotal = resTotal % n;
+        }
+
+
+        i++;
+    }
+
+    return resTotal;
+}
+
+
+function getA(){
+    var x = parseInt(document.getElementById("x").value);
+    var q = parseInt(document.getElementById("q").value);
+    var g = parseInt(document.getElementById("g").value);
+    var a = fastModExp(g, x, q);
+
+    document.getElementById("A").innerHTML = a.toString(10);
+}
+function getB(){
+    var y = parseInt(document.getElementById("y").value);
+    var q = parseInt(document.getElementById("q").value);
+    var g = parseInt(document.getElementById("g").value);
+    var b = fastModExp(g, y, q);
+
+    document.getElementById("B").innerHTML = b.toString(10);
+}
+function getS(){
+    var y = parseInt(document.getElementById("y").value);
+    var q = parseInt(document.getElementById("q").value);
+    var a = parseInt(document.getElementById("A").innerHTML);
+    var s = fastModExp(a, y, q);
+
+    document.getElementById("secret").value = s.toString(10);
+}
+</script>
+</head>
+<body>
+
+<div id="accordion" style="width:900px; font-family:Calibri,Lucida Grande,Lucida Sans,Arial,sans-serif;">	
+   
+
+<h3><b>Prototype of Diffie-Hellman Key Exchange</b></h3>
+  
+  <div>
+  	<center>
+       <table width="800">
+        	<tbody>
+            <tr>        
+                <td><label for="q">modulus q:</label></td>
+                <td><input id="q" size=28 maxlength="100"  placeholder="23" /></td>        
+            </tr>    
+            <tr>        
+                <td><label for="g">generator g:</label></td>
+                <td><input id="g" size=28 maxlength="100"  placeholder="9" /></td>
+            </tr>
+            <tr>
+                <td><label for="x">Alice chooses x:</label></td>
+                <td><input id="x" size=28 maxlength="100"  placeholder="4" onkeyup="getA()"/></td>
+            </tr>
+            <tr>
+                <td><label for="A">Alice sends h<sub>A</sub>:</label></td>
+                <td><span id="A"/></span></td>
+            </tr>
+            <tr>
+                <td><label for="y">Bob chooses y:</label></td>
+                <td><input id="y" size=28 maxlength="100"  placeholder="3" onkeyup="getB()"/></td>
+            </tr>
+            <tr>
+                <td><label for="B">Bob sends h<sub>B</sub>:</label></td>
+                <td><span id="B"/></span></td>
+            </tr>
+            <tr>    	
+        		<td><label for="secret">Shared secret:</label></td>
+                <td><input id="secret" size=28 maxlength="100"  placeholder="" /></td>
+            </tr>
+            <tr>    
+                <td></td>    
+                 <td><button id="mybtn1" onclick="getS()" class="ui-button ui-widget ui-corner-all">Calculate</button></td>
+            </tr>
+            </tbody>
+        </table>
+    </center>
+  </div>
+
+
+</div>
+
+
+</body>
+</html>
