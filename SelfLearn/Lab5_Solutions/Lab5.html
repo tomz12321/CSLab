@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		  
+	<!-- jQuery -->
+	<!--<script type="text/javascript" charset="utf8" src="jquery/jqueC:\Program Files (x86)\Google\Chrome\Applicationry.js"></script>-->
+	<script type="text/javascript" src="jquery-ui/jquery-1.11.3.js"></script>
+	<script type="text/javascript" charset="utf8" src="jquery-ui/jquery-ui.js"></script>
+	  
+	<!-- DataTables -->
+	<!-- <script type="text/javascript" charset="utf8" src="datatables/js/jquery.dataTables.js"></script> -->
+
+
+	<!-- <link href="style.css" rel="stylesheet" type="text/css"> -->
+
+
+	<link rel="stylesheet" type="text/css" href="jquery-ui/jquery-ui.css"> 
+	<link rel="stylesheet" type="text/css" href="jquery-ui/jquery-ui.theme.css"> 
+ 
+
+
+	<!-- DataTables CSS -->
+	<!-- <link rel="stylesheet" type="text/css" href="datatables/css/jquery.dataTables_themeroller.css"> -->
+
+
+	<title>Cloud Security Lab 5</title>
+	
+  <script>
+  $( function() {
+    $( "#tabs" ).tabs();
+  } );
+  </script>
+
+  <style>
+  table.blueTable {
+    font-family: Arial, Helvetica, sans-serif;
+    border: 1px solid #196190;
+    background-color: #EEEEEE;
+    width: 200px;
+    height: 200px;
+    text-align: left;
+    border-collapse: collapse;
+  }
+  table.blueTable td, table.blueTable th {
+    border: 1px solid #AAAAAA;
+    padding: 2px 2px;
+  }
+  table.blueTable tr:nth-child(even) {
+    background: #D0E4F5;
+  }
+  table.blueTable tfoot td {
+    font-size: 11px;
+  }
+  table.blueTable tfoot .links {
+    text-align: right;
+  }
+  table.blueTable tfoot .links a{
+    display: inline-block;
+    background: #1C6EA4;
+    color: #FFFFFF;
+    padding: 2px 8px;
+    border-radius: 5px;
+  }
+  input.blueTable {
+    background: transparent; 
+    border: none; 
+    width:33px;
+    height:30px;
+    border-radius: 4px;
+    font-size:11px;
+  }
+  input.orangeBorder {
+    font-family: Arial, Helvetica, sans-serif;
+    border: 1px solid #F6A828;
+    background-color: #FDF5CE;
+    width:300px;
+    height:30px;
+    border-radius: 4px;    
+  }
+  </style>
+
+<style>
+table.blueTable1 {
+  font-family: Arial, Helvetica, sans-serif;
+  border: 1px solid #F6A828;
+  background-color: #FDF5CE;
+  width: 200px;
+  height: 40px;
+  text-align: left;
+  border-collapse: collapse;
+}
+table.blueTable1 td, table.blueTable1 th {
+  border: 2px solid #F6A828;
+  padding: 2px 2px;
+}
+table.blueTable1 tbody td {
+  font-size: 11px;
+}
+table.blueTable1 tr:nth-child(even) {
+  background: #D0E4F5;
+}
+table.blueTable1 tfoot td {
+  font-size: 11px;
+}
+table.blueTable1 tfoot .links {
+  text-align: right;
+}
+table.blueTable1 tfoot .links a{
+  display: inline-block;
+  background: #1C6EA4;
+  color: #FFFFFF;
+  padding: 2px 8px;
+  border-radius: 5px;
+}
+</style>
+
+<script>
+  $( function() {
+    // Set effect from select menu value
+    $( ".buttonEff").on( "click", function() {
+       var id = $( this ).attr('id');
+       if(id=='1'){
+        runEffect("");     
+        keccakTheta(); 
+       }else if(id == '2'){
+        runEffect("2");
+        keccakPi();
+       }
+      
+      //return false;
+    });
+    // run the currently selected effect
+    function runEffect(id) {
+      // get effect type from
+      var selectedEffect = "highlight";
+      // Most effect types need no options passed by default
+      var options = {};
+      // Run the effect
+      $( ".effect"+id ).show( selectedEffect, options, 500, callback(id) );
+    };
+ 
+    //callback function to bring a hidden box back
+    function callback(id) {
+      setTimeout(function() {
+        $( ".effect"+id+":visible" ).removeAttr( "style" ).fadeIn();
+      }, 1000 );
+    };
+ 
+    
+ 
+    $( ".effect" ).hide();
+    $( ".effect2" ).hide();
+  } );
+  </script>
+
+</head>
+
+<body>  
+	<div id="tabs" style="width:1100px; font-family:Calibri,Lucida Grande,Lucida Sans,Arial,sans-serif;">
+	   <ul>
+        <li><a href="#tabs-1">theta &theta; step</a></li>
+        <li><a href="#tabs-2">pi &pi; step</a></li>
+       </ul>
+       <div id="tabs-1">
+
+        <table style="text-align: center;">          
+          <tbody>
+           <!--  <tr>
+              <td>input state b (25 bits):</td>
+              <td colspan=6 align=left><input class="orangeBorder" type="text" id="state" maxlength=29 onkeyup="getA('')"></td>              
+            </tr>
+            <tr>
+              <td colspan=7><hr></td>
+            </tr> -->
+            <tr>
+              <td style="width:210px;">Original A[x,y]</td>
+              <td style="width:110px;">&#x21E8;</td>
+              <td style="width:210px;">C[x]</td>
+              <td style="width:30px;">&#x21E8;</td>
+              <td style="width:210px;">D[x]</td>
+              <td style="width:30px;">&#x21E8;</td>
+              <td style="width:210px;">New A'[x,y]</td>
+            </tr>
+
+            <tr>
+              <td>
+            <div id="table1">
+              <table class="blueTable">
+                  <tbody>
+                  <tr>
+                  <td><input class="blueTable" type="text" id="a32" value="A[3,2]"></td>
+                  <td><input class="blueTable" type="text" id="a42" value="A[4,2]"></td>
+                  <td><input class="blueTable" type="text" id="a02" value="A[0,2]"></td>
+                  <td><input class="blueTable" type="text" id="a12" value="A[1,2]"></td>
+                  <td><input class="blueTable" type="text" id="a22" value="A[2,2]"></td>
+                </tr>
+                  <tr>
+                  <td><input class="blueTable" type="text" id="a31" value="A[3,1]"></td>
+                  <td><input class="blueTable" type="text" id="a41" value="A[4,1]"></td>
+                  <td><input class="blueTable" type="text" id="a01" value="A[0,1]"></td>
+                  <td><input class="blueTable" type="text" id="a11" value="A[1,1]"></td>
+                  <td><input class="blueTable" type="text" id="a21" value="A[2,1]"></td>
+                </tr>
+                  <tr>
+                  <td><input class="blueTable" type="text" id="a30" value="A[3,0]"></td>
+                  <td><input class="blueTable" type="text" id="a40" value="A[4,0]"></td>
+                  <td><input class="blueTable" type="text" id="a00" value="A[0,0]"></td>
+                  <td><input class="blueTable" type="text" id="a10" value="A[1,0]"></td>
+                  <td><input class="blueTable" type="text" id="a20" value="A[2,0]"></td>
+                </tr>
+                  <tr>
+                  <td><input class="blueTable" type="text" id="a34" value="A[3,4]"></td>
+                  <td><input class="blueTable" type="text" id="a44" value="A[4,4]"></td>
+                  <td><input class="blueTable" type="text" id="a04" value="A[0,4]"></td>
+                  <td><input class="blueTable" type="text" id="a14" value="A[1,4]"></td>
+                  <td><input class="blueTable" type="text" id="a24" value="A[2,4]"></td>
+                </tr>
+                  <tr>
+                  <td><input class="blueTable" type="text" id="a33" value="A[3,3]"></td>
+                  <td><input class="blueTable" type="text" id="a43" value="A[4,3]"></td>
+                  <td><input class="blueTable" type="text" id="a03" value="A[0,3]"></td>
+                  <td><input class="blueTable" type="text" id="a13" value="A[1,3]"></td>
+                  <td><input class="blueTable" type="text" id="a23" value="A[2,3]"></td>
+                </tr>
+                  </tbody>
+                  </tr>
+                  </table>
+            </div>
+          </td>
+          <td><button id="1" class="buttonEff ui-button ui-corner-all ui-widget">Show &#x21E8;</button></td>
+          <td>
+              <div id="table2">
+                <table class="effect blueTable1">
+                    <tbody>
+                    <tr>
+                    <td><input class="blueTable" type="text" id="c3" value="C[3]"></td>
+                    <td><input class="blueTable" type="text" id="c4" value="C[4]"></td>
+                    <td><input class="blueTable" type="text" id="c0" value="C[0]"></td>
+                    <td><input class="blueTable" type="text" id="c1" value="C[1]"></td>
+                    <td><input class="blueTable" type="text" id="c2" value="C[2]"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </td>
+          <td>
+            &#x21E8;
+          </td>
+          <td>
+              <div id="table3">
+                <table class="effect blueTable1">
+                    <tbody>
+                    <tr>
+                    <td><input class="blueTable" type="text" id="d3" value="D[3]"></td>
+                    <td><input class="blueTable" type="text" id="d4" value="D[4]"></td>
+                    <td><input class="blueTable" type="text" id="d0" value="D[0]"></td>
+                    <td><input class="blueTable" type="text" id="d1" value="D[1]"></td>
+                    <td><input class="blueTable" type="text" id="d2" value="D[2]"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </td>
+          <td>
+           &#x21E8;
+          </td>
+              <td>
+            <div id="table4">
+              <table class="effect blueTable">
+                  <tbody>
+                  <tr>
+                  <td><input class="blueTable" type="text" id="b32" value="A'[3,2]"></td>
+                  <td><input class="blueTable" type="text" id="b42" value="A'[4,2]"></td>
+                  <td><input class="blueTable" type="text" id="b02" value="A'[0,2]"></td>
+                  <td><input class="blueTable" type="text" id="b12" value="A'[1,2]"></td>
+                  <td><input class="blueTable" type="text" id="b22" value="A'[2,2]"></td>
+                </tr>
+                  <tr>
+                  <td><input class="blueTable" type="text" id="b31" value="A'[3,1]"></td>
+                  <td><input class="blueTable" type="text" id="b41" value="A'[4,1]"></td>
+                  <td><input class="blueTable" type="text" id="b01" value="A'[0,1]"></td>
+                  <td><input class="blueTable" type="text" id="b11" value="A'[1,1]"></td>
+                  <td><input class="blueTable" type="text" id="b21" value="A'[1,1]"></td>
+                </tr>
+                  <tr>
+                  <td><input class="blueTable" type="text" id="b30" value="A'[3,0]"></td>
+                  <td><input class="blueTable" type="text" id="b40" value="A'[4,0]"></td>
+                  <td><input class="blueTable" type="text" id="b00" value="A'[0,0]"></td>
+                  <td><input class="blueTable" type="text" id="b10" value="A'[1,0]"></td>
+                  <td><input class="blueTable" type="text" id="b20" value="A'[2,0]"></td>
+                </tr>
+                  <tr>
+                  <td><input class="blueTable" type="text" id="b34" value="A'[3,4]"></td>
+                  <td><input class="blueTable" type="text" id="b44" value="A'[4,4]"></td>
+                  <td><input class="blueTable" type="text" id="b04" value="A'[0,4]"></td>
+                  <td><input class="blueTable" type="text" id="b14" value="A'[1,4]"></td>
+                  <td><input class="blueTable" type="text" id="b24" value="A'[2,4]"></td>
+                </tr>
+                  <tr>
+                  <td><input class="blueTable" type="text" id="b33" value="A'[3,3]"></td>
+                  <td><input class="blueTable" type="text" id="b43" value="A'[4,3]"></td>
+                  <td><input class="blueTable" type="text" id="b03" value="A'[0,3]"></td>
+                  <td><input class="blueTable" type="text" id="b13" value="A'[1,3]"></td>
+                  <td><input class="blueTable" type="text" id="b23" value="A'[2,3]"></td>
+                </tr>
+                  </tbody>
+                  </tr>
+                  </table>
+            </div>
+          </td>
+
+        </tr>
+        
+        </tbody>
+
+      </table>
+          </div>
+          <div id="tabs-2">
+                    <table style="text-align: center;">          
+          <tbody>
+           <!--  <tr>
+              <td>input state b (25 bits):</td>
+              <td colspan=2 align=left><input class="orangeBorder" type="text" id="state2" maxlength=29 onkeyup="getA('2')"></td>              
+            </tr>
+            <tr>
+              <td colspan=3><hr></td>
+            </tr> -->
+            <tr>
+              <td style="width:210px;">Original A[x,y]</td>              
+              <td style="width:110px;">&#x21E8;</td>
+              <td style="width:210px;">New B[y,2x+3y]</td>
+            </tr>
+
+            <tr>
+              <td>
+            <div id="table5">
+              <table class="blueTable">
+                  <tbody>
+                  <tr>
+                  <td><input class="blueTable" type="text" id="a32_2" value="A[3,2]"></td>
+                  <td><input class="blueTable" type="text" id="a42_2" value="A[4,2]"></td>
+                  <td><input class="blueTable" type="text" id="a02_2" value="A[0,2]"></td>
+                  <td><input class="blueTable" type="text" id="a12_2" value="A[1,2]"></td>
+                  <td><input class="blueTable" type="text" id="a22_2" value="A[2,2]"></td>
+                </tr>
+                  <tr>
+                  <td><input class="blueTable" type="text" id="a31_2" value="A[3,1]"></td>
+                  <td><input class="blueTable" type="text" id="a41_2" value="A[4,1]"></td>
+                  <td><input class="blueTable" type="text" id="a01_2" value="A[0,1]"></td>
+                  <td><input class="blueTable" type="text" id="a11_2" value="A[1,1]"></td>
+                  <td><input class="blueTable" type="text" id="a21_2" value="A[2,1]"></td>
+                </tr>
+                  <tr>
+                  <td><input class="blueTable" type="text" id="a30_2" value="A[3,0]"></td>
+                  <td><input class="blueTable" type="text" id="a40_2" value="A[4,0]"></td>
+                  <td><input class="blueTable" type="text" id="a00_2" value="A[0,0]"></td>
+                  <td><input class="blueTable" type="text" id="a10_2" value="A[1,0]"></td>
+                  <td><input class="blueTable" type="text" id="a20_2" value="A[2,0]"></td>
+                </tr>
+                  <tr>
+                  <td><input class="blueTable" type="text" id="a34_2" value="A[3,4]"></td>
+                  <td><input class="blueTable" type="text" id="a44_2" value="A[4,4]"></td>
+                  <td><input class="blueTable" type="text" id="a04_2" value="A[0,4]"></td>
+                  <td><input class="blueTable" type="text" id="a14_2" value="A[1,4]"></td>
+                  <td><input class="blueTable" type="text" id="a24_2" value="A[2,4]"></td>
+                </tr>
+                  <tr>
+                  <td><input class="blueTable" type="text" id="a33_2" value="A[3,3]"></td>
+                  <td><input class="blueTable" type="text" id="a43_2" value="A[4,3]"></td>
+                  <td><input class="blueTable" type="text" id="a03_2" value="A[0,3]"></td>
+                  <td><input class="blueTable" type="text" id="a13_2" value="A[1,3]"></td>
+                  <td><input class="blueTable" type="text" id="a23_2" value="A[2,3]"></td>
+                </tr>
+                  </tbody>
+                  </tr>
+                  </table>
+            </div>
+          </td>
+          <td><button id="2" class="buttonEff ui-button ui-corner-all ui-widget">Show &#x21E8;</button></td>
+  
+          <td>
+            <div id="table6">
+              <table class="effect2 blueTable">
+                  <tbody>
+                 <tr>
+                  <td><input class="blueTable" type="text" id="b32_2" value="A'[3,2]"></td>
+                  <td><input class="blueTable" type="text" id="b42_2" value="A'[4,2]"></td>
+                  <td><input class="blueTable" type="text" id="b02_2" value="A'[0,2]"></td>
+                  <td><input class="blueTable" type="text" id="b12_2" value="A'[1,2]"></td>
+                  <td><input class="blueTable" type="text" id="b22_2" value="A'[2,2]"></td>
+                </tr>
+                  <tr>
+                  <td><input class="blueTable" type="text" id="b31_2" value="A'[3,1]"></td>
+                  <td><input class="blueTable" type="text" id="b41_2" value="A'[4,1]"></td>
+                  <td><input class="blueTable" type="text" id="b01_2" value="A'[0,1]"></td>
+                  <td><input class="blueTable" type="text" id="b11_2" value="A'[1,1]"></td>
+                  <td><input class="blueTable" type="text" id="b21_2" value="A'[1,1]"></td>
+                </tr>
+                  <tr>
+                  <td><input class="blueTable" type="text" id="b30_2" value="A'[3,0]"></td>
+                  <td><input class="blueTable" type="text" id="b40_2" value="A'[4,0]"></td>
+                  <td><input class="blueTable" type="text" id="b00_2" value="A'[0,0]"></td>
+                  <td><input class="blueTable" type="text" id="b10_2" value="A'[1,0]"></td>
+                  <td><input class="blueTable" type="text" id="b20_2" value="A'[2,0]"></td>
+                </tr>
+                  <tr>
+                  <td><input class="blueTable" type="text" id="b34_2" value="A'[3,4]"></td>
+                  <td><input class="blueTable" type="text" id="b44_2" value="A'[4,4]"></td>
+                  <td><input class="blueTable" type="text" id="b04_2" value="A'[0,4]"></td>
+                  <td><input class="blueTable" type="text" id="b14_2" value="A'[1,4]"></td>
+                  <td><input class="blueTable" type="text" id="b24_2" value="A'[2,4]"></td>
+                </tr>
+                  <tr>
+                  <td><input class="blueTable" type="text" id="b33_2" value="A'[3,3]"></td>
+                  <td><input class="blueTable" type="text" id="b43_2" value="A'[4,3]"></td>
+                  <td><input class="blueTable" type="text" id="b03_2" value="A'[0,3]"></td>
+                  <td><input class="blueTable" type="text" id="b13_2" value="A'[1,3]"></td>
+                  <td><input class="blueTable" type="text" id="b23_2" value="A'[2,3]"></td>
+                </tr>
+                  </tbody>
+                  </tr>
+                  </table>
+            </div>
+          </td>
+
+        </tr>
+        
+        </tbody>
+
+      </table>
+          </div>
+    </div>
+
+
+<script type="text/javascript" src="js/keccak-demo.js"></script>
+<script>
+function getA(param){
+  var input = document.getElementById("state"+param).value.replace(/[^01]/g, "").split("");
+  for(var x=0; x<5; x++){
+    for(var y=0; y<5; y++){
+      
+      if(input.length >= y*5+x+1){
+        if(param == '2'){
+          param = "_"+param;
+        }
+        document.getElementById("a"+x+y+param).value = input[y*5+x];
+        //alert("input length:"+input.length+" input:"+input[y*5+x]);
+      }      
+
+    }
+  }
+}
+function keccakTheta(){
+  var matrixA = [[],[],[],[],[]];
+  for(var x=0; x<5; x++){
+    for(var y=0; y<5; y++){
+      matrixA[x][y] = document.getElementById("a"+x+y+"").value;
+
+    }
+  }
+  //alert("matrixA:"+matrixA);
+
+  let test = theta(matrixA);
+  var b = test.array1;
+  var c = test.array2;
+  var d = test.array3; 
+  //alert("b:"+b);
+  
+  for(x=0; x<5; x++){
+    document.getElementById("c"+x).value = c[x];
+    document.getElementById("d"+x).value = d[x];
+
+    for(y=0; y<5; y++){
+      document.getElementById("b"+x+y+"").value = b[x][y];
+    }
+
+  } 
+
+}
+
+function keccakPi(){
+  var matrixA = [[],[],[],[],[]];
+  for(var x=0; x<5; x++){
+    for(var y=0; y<5; y++){
+      matrixA[x][y] = document.getElementById("a"+x+y+"_2").value;
+
+    }
+  }
+
+  var b = pi(matrixA);
+  //alert(b);
+   for(x=0; x<5; x++){
+      for(y=0; y<5; y++){
+      document.getElementById("b"+x+y+"_2").value = b[x][y];
+    }
+
+  } 
+}
+</script>
+
+
+
+
+
+
+</body>
+</html>
