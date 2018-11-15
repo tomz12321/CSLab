@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		  
+	<!-- jQuery -->
+	<!--<script type="text/javascript" charset="utf8" src="jquery/jqueC:\Program Files (x86)\Google\Chrome\Applicationry.js"></script>-->
+	<script type="text/javascript" src="jquery-ui/jquery-1.11.3.js"></script>
+	<script type="text/javascript" charset="utf8" src="jquery-ui/jquery-ui.js"></script>
+
+	<script type="text/javascript" src="js/conversion.js"></script>
+	
+	  
+	<!-- DataTables -->
+	<!-- <script type="text/javascript" charset="utf8" src="datatables/js/jquery.dataTables.js"></script> -->
+
+
+	<!-- <link href="style.css" rel="stylesheet" type="text/css"> -->
+	<link rel="stylesheet" type="text/css" href="jquery-ui/jquery-ui.css">
+	<link rel="stylesheet" type="text/css" href="jquery-ui/jquery-ui.theme.css">
+
+	<!-- DataTables CSS -->
+	<!-- <link rel="stylesheet" type="text/css" href="datatables/css/jquery.dataTables_themeroller.css"> -->
+	
+	<style type="text/css">
+	    .matrix {
+        position: relative;
+    }
+    .matrix:before, .matrix:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        border: 1px solid #000;
+        width: 6px;
+        height: 100%;
+    }
+    .matrix:before {
+        left: -6px;
+        border-right: 0;
+    }
+    .matrix:after {
+        right: -6px;
+        border-left: 0;
+    }
+	</style>
+
+	<title>Cloud Security Lab</title>
+	
+  <script>
+  $( function() {
+    $( "#accordion" ).accordion();
+  } );
+  </script>
+</head>
+<body>
+	<div id="accordion" class="ui-accordion ui-widget ui-helper-reset" style="width:900px; font-family:Calibri,Lucida Grande,Lucida Sans,Arial,sans-serif;">
+	<h3 align="left" id="head_01" class="head ui-accordion-header ui-state-default ui-accordion-icons ui-corner-all" ><b>4-bit binary XOR</b></h3>
+<div class="ui-accordion-content ui-corner-bottom ui-helper-reset ui-widget-content ui-accordion-content-active">
+<center>
+<table width="800">
+	<tbody>
+	<tr>    	
+		<td><label for="bin1">binary 1:</label></td>
+        <td><input id="bin1" size=28 maxlength="100"  placeholder="0000" /></td>        
+    </tr>    
+	<tr>    	
+		<td><label for="bin2">binary 2:</label></td>
+        <td><input id="bin2" size=28 maxlength="100"  placeholder="0001" /> <button id="mybtn1" onclick="xor()" class="ui-button ui-widget ui-corner-all" style="width:100px">XOR</button></td>
+	</tr>
+    <tr>    	
+		<td><label for="outputBin">output binary:</label></td>
+        <td><input id="outputBin" size=28 maxlength="100"  placeholder="0001" /></td>
+     </tr>
+    </tbody>
+</table>
+</center>
+</div>
+
+<h3><b>4-bit nibble substitution</b></h3>
+  <div>
+  	<center>
+   <table width="800">
+	<tbody>
+	<tr>    	
+		<td><label for="nibble">4-bit nibble:</label></td>
+        <td><input id="nibble" size=28 maxlength="100"  placeholder="0000" /> <button id="mybtn2" onclick="substitution()" class="ui-button ui-widget ui-corner-all">Substitute</button></td>
+    </tr>  
+    <tr>    	
+		<td><label for="outputNibble">output nibble:</label></td>
+        <td><input id="outputNibble" size=28 maxlength="100"  placeholder="1001" /></td>
+    </tr>
+    </tbody>
+</table>
+</center>
+  </div>
+
+
+  <h3><b>mix column</b></h3>
+   <div>
+  	<center>
+   <table width="800">
+	<tbody>
+	<tr>    	
+		<td><label for="inputBin1">input 16-bit binary:</label></td>
+        <td><input id="inputBin1" size=28 maxlength="100"  placeholder="0010 1110 1110 1110" onkeyup="getMatrixS()" /> <button id="mybtn3" onclick="multiplication()" class="ui-button ui-widget ui-corner-all">Matrix multiply</button></td>
+    </tr>      
+    <tr>
+    	<td>matrix S</td>
+    	<td><div align="left" id="divS">
+    			<table class="matrix">
+    				<tr>
+    					<td><span id="s00">S<sub>0,0</sub></span></td>
+    					<td><span id="s01">S<sub>0,1</sub></span></td>
+    				</tr>
+    				<tr>
+    					<td><span id="s10">S<sub>1,0</sub></span></td>
+    					<td><span id="s11">S<sub>1,1</sub></span></td>
+    				</tr>
+    			</table>
+    		</div>
+    		<br>
+    	</td>	
+    </tr>
+    <tr>
+    	<td>matrix M</td>
+    	<td>
+    		<div align="left">
+    			<table class="matrix">
+    				<tr>
+    					<td>1</td>
+    					<td>4</td>
+    				</tr>
+    				<tr>
+    					<td>4</td>
+    					<td>1</td>
+    				</tr>
+    			</table>
+    		</div>
+    		<br>
+    	</td>	
+    </tr>
+    <tr>    	
+		<td><label for="outputBin1">output binary:</label></td>
+        <td><input id="outputBin1" size=28 maxlength="100"  placeholder="1111 0011 0110 0011" /></td>
+    </tr>
+     <tr>
+    	<td>matrix S'</td>
+    	<td><div align="left" id="divS1">
+    			<table class="matrix">
+    				<tr>
+    					<td><span id="s001">S'<sub>0,0</sub></span></td>
+    					<td><span id="s011">S'<sub>0,1</sub></span></td>
+    				</tr>
+    				<tr>
+    					<td><span id="s101">S'<sub>1,0</sub></span></td>
+    					<td><span id="s111">S'<sub>1,1</sub></span></td>
+    				</tr>
+    			</table>
+    		</div>
+    		<br>
+    	</td>	
+    </tr>
+    </tbody>
+</table>
+</center>
+  </div>
+</div>
+
+
+
+
+<script type="text/javascript" src="js/bitwiseXOR.js"></script>
+
+<script>
+function xor(){
+var bin1 = document.getElementById("bin1").value;
+var bin2 = document.getElementById("bin2").value;
+var output = bitwiseXOR(bin1, bin2);
+
+document.getElementById("outputBin").value = output;
+
+}
+
+</script>
+
+
+
+<script type="text/javascript" src="js/substitution.js"></script>
+<script type="text/javascript">
+function substitution(){
+	var nibble = document.getElementById("nibble").value;
+	var outputNibble = subNib(nibble);
+	document.getElementById("outputNibble").value = outputNibble;
+}
+</script>
+
+
+
+<script type="text/javascript" src="js/mixColumn.js"></script>
+<script type="text/javascript">
+function getMatrixS(){
+	var binS = document.getElementById("inputBin1").value;
+	var matrixS = convertToMatrix(binS);
+	document.getElementById("s00").innerHTML = matrixS[0];
+	//alert("1");
+	document.getElementById("s01").innerHTML = matrixS[1];
+	document.getElementById("s10").innerHTML = matrixS[2];
+	document.getElementById("s11").innerHTML = matrixS[3];
+}	
+
+function multiplication(){
+	var binS = document.getElementById("inputBin1").value;
+	var matrixS1 = matrixMultiplication(binS);
+	document.getElementById("s001").innerHTML = matrixS1[0];
+	//alert("1");
+	document.getElementById("s011").innerHTML = matrixS1[1];
+	document.getElementById("s101").innerHTML = matrixS1[2];
+	document.getElementById("s111").innerHTML = matrixS1[3];
+
+	document.getElementById("outputBin1").value = matrixS1.join(" ");
+}
+</script>
+
+</body>
+</html>
