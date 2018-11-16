@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<div style="background-color:hsl(0, 100%, 90%);color:#555555; font-size:20px; font-weight:bold; font-family:Consolas, 'Courier New', Courier, monospace; text-align:center"><p>Transposition Cipher: Encryption - Decryption</p></div>
+
+<div style="height:300px; text-align:left; border:3px solid rgb(180,180,180); margin:10px">
+<table style="width:80%; height:180px; margin-left:10%; margin-top:10px; text-align:left">
+	
+    <tr>
+    	<td><label for="inputPlaintext">Plaintext:</label></td>
+        <td><textarea id="inputPlaintext" rows="5" cols="60" maxlength="700" placeholder="Please input your plaintext..." ></textarea></td>
+    </tr>
+	<tr>    	
+		<td><label for="encryptionKey">Keyword:</label></td>
+        <td><input id="encryptionKey" size=28 maxlength="100"  placeholder="KEY" /><input size=28 style="border:0;" id="permutation" autocomplete="off" value="&rarr;(2,1,3)" readonly/></td>
+    </tr>
+    <tr>
+    	<td colspan=2><button id="encryption" onclick="encryption()" style="margin: 3px 181px 2px; cursor: pointer;">Encrypt</button></td>
+	</tr>
+	<tr>
+    	<td><label for="outputCiphertext">Ciphertext:</td>
+        <td><textarea id="outputCiphertext" rows="5" cols="60" maxlength="700" placeholder="The ciphertext is..." readonly></textarea></td>
+    </tr>
+</table>
+</div>
+
+<script>
+function encryption() {
+	//convert to lowercase/uppercase and remove the space
+    var plaintext = document.getElementById("inputPlaintext").value.toLowerCase().replace(/[^a-z]/g, "");  
+    //alert("plaintext:"+plaintext);
+    if(plaintext.length < 1){ 
+    	alert("Please enter some plaintext"); 
+        return; 
+        }    
+    var key = document.getElementById("encryptionKey").value.toLowerCase().replace(/[^a-z]/g, ""); 
+    var klen = key.length;
+    //alert("key:"+key + " klen:"+klen);
+     
+    //padding, not used in this case 
+    //while(plaintext.length % key.length != 0) plaintext += pc.charAt(0);  
+    
+    //divide and only get the quotition as the column length
+    var rowLength = Math.floor(plaintext.length / klen); 
+    if(plaintext.length % key.length != 0){
+    	rowLength += 1;        
+    }
+    //alert("rowLength:"+rowLength);
+    
+    //alphabetically 
+    var chars = "abcdefghijklmnopqrstuvwxyz"; 
+    var ciphertext = ""; 
+    
+    var k=0;
+    var arrOffset = [];
+    var arrPermutation = [];
+	
+	//find the permutation in terms of the sequence of keyword
+    for(var i=0; i < key.length; i++){
+        while(k<26){
+			  //t=-1, if there is no match character
+              var t = key.indexOf(chars.charAt(k));
+             // alert("chars.charAt(k):"+chars.charAt(k)+" t:"+t);
+              var arrkw = key.split(""); 
+			  //replace the matched character
+              arrkw[t] = "_"; 
+              key = arrkw.join("");
+              //alert("key:"+key);
+              if(t >= 0){
+              	arrOffset[t]=i;
+                arrPermutation[t]=i+1;
+              	break;
+              }
+              else k++;
+        }
+     }
+    
+    var permutation;
+    permutation = arrPermutation.join(",");
+    
+    for(var j=0; j < rowLength; j++){ 
+    	for(var i=0; i<key.length; i++){
+			//read each character of plaintext bases on the sequence of keyword
+        	ciphertext += plaintext.charAt(j*key.length + arrOffset[i]);             
+        }
+    }
+    document.getElementById("outputCiphertext").value = ciphertext;
+    document.getElementById("permutation").value = "\u2192 ("+permutation+")";
+}
+</script>
+
+
+
+<div style="height:300px; text-align:left; border:3px solid rgb(180,180,180); margin:10px">
+<table style="width:80%; height:180px; margin-left:10%; margin-top:10px; text-align:left">
+	
+    <tr>
+    	<td><label for="inputCiphertext">Ciphertext:</label></td>
+        <td><textarea id="inputCiphertext" rows="5" cols="60" maxlength="700" placeholder="Please input your ciphertext..." ></textarea></td>
+    </tr>
+	<tr>    	
+		<td><label for="decryptionKey">Keyword:</label></td>
+        <td><input id="decryptionKey" size=28 maxlength="100"  placeholder="KEY" /><input size=28 style="border:0;" id="permutation1" autocomplete="off" value="&rarr;(2,1,3)" readonly/></td>
+    </tr>
+    <tr>
+    	<td colspan=2><button id="decryption" onclick="decryption()" style="margin: 3px 181px 2px; cursor: pointer;">Decrypt</button></td>
+	</tr>
+	<tr>
+    	<td><label for="outputPlaintext">Plaintext:</td>
+        <td><textarea id="outputPlaintext" rows="5" cols="60" maxlength="700" placeholder="The plaintext is..." readonly></textarea></td>
+    </tr>
+</table>
+</div>
+
+<script>
+function decryption() {
+	//convert to lowercase/uppercase and sanitize
+    var ciphertext = document.getElementById("inputCiphertext").value.toLowerCase().replace(/[^a-z]/g, "");  
+    if(ciphertext.length < 1){ 
+    	alert("please enter some ciphertext (letters only)"); return; 
+        }    
+    var key = document.getElementById("decryptionKey").value.toLowerCase().replace(/[^a-z]/g, ""); 
+    var klen = key.length;
+    if(klen <= 1){ 
+    	alert("keyword should be at least 2 characters long"); 
+        return; 
+        }
+   
+ var rowNum = Math.floor(ciphertext.length / key.length);
+    if(ciphertext.length % key.length != 0){
+    	rowNum += 1;
+        
+    }
+    //alert("colLength:"+colLength);
+    
+    //alphabetically 
+    var chars = "abcdefghijklmnopqrstuvwxyz"; 
+    var plaintext = [];     
+   
+   	var k=0;
+    var arrOffset = [];
+    var arrPermutation = [];
+	
+	//find the permutation in terms of the sequence of keyword
+    for(var i=0; i < key.length; i++){
+        while(k<26){
+			  //t=-1, if there is no match character
+              var t = key.indexOf(chars.charAt(k));
+             // alert("chars.charAt(k):"+chars.charAt(k)+" t:"+t);
+              var arrkw = key.split(""); 
+			  //replace the matched character
+              arrkw[t] = "_"; 
+              key = arrkw.join("");
+              //alert("key:"+key);
+              if(t >= 0){
+              	arrOffset[t]=i;
+                arrPermutation[t]=i+1;
+              	break;
+              }
+              else k++;
+        }
+     }
+    
+    var permutation;
+    permutation = arrPermutation.join(",");
+    
+    for(var j=0; j < rowNum; j++){ 
+    	for(var i=0; i<key.length; i++){
+			//read each character of plaintext bases on the sequence of keyword
+            var index = j*key.length + arrOffset[i];
+        	plaintext[index] = ciphertext.charAt(j*key.length + i);             
+        }
+    }
+    document.getElementById("outputPlaintext").value = plaintext.join("");    
+    document.getElementById("permutation1").value = "\u2192 ("+permutation+")";
+}
+  
+  
+</script>
+
+</body>
+</html>

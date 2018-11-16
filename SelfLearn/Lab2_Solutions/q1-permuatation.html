@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<div style="background-color:hsl(0, 100%, 90%);color:#555555; font-size:20px; font-weight:bold; font-family:Consolas, 'Courier New', Courier, monospace; text-align:center"><p>Permutation</p></div>
+
+<div style="height:200px; text-align:left; border:3px solid rgb(180,180,180); margin:10px">
+<table style="width:80%; height:180px; margin-left:10%; margin-top:10px; text-align:left">
+	
+    <tr>
+    	<td><label for="inputPlaintext">Input String:</label></td>
+        <td><textarea id="inputPlaintext" rows="3" cols="60" maxlength="700" placeholder="Please input your plaintext..." ></textarea></td>
+    </tr>
+	<tr>    	
+		<td><label for="encryptionKey">Permutation:</label></td>
+        <td><input id="encryptionKey" size=28 maxlength="100"  placeholder="53412" /><input size=28 style="border:0;" id="permutation" autocomplete="off" value="e.g.:53412" readonly/></td>
+    </tr>
+    <tr>
+    	<td colspan=2><button id="encryption" onclick="encryption()" style="margin: 3px 181px 2px; cursor: pointer;">Encrypt</button></td>
+	</tr>
+	<tr>
+    	<td><label for="outputCiphertext">Output String:</td>
+        <td><textarea id="outputCiphertext" rows="3" cols="60" maxlength="700" placeholder="The ciphertext is..." readonly></textarea></td>
+    </tr>
+</table>
+</div>
+
+<script>
+function encryption() {
+	//convert to lowercase/uppercase and remove the space
+    var plaintext = document.getElementById("inputPlaintext").value.toUpperCase().replace(/[^A-Z]/g, "");  
+       
+    var key = document.getElementById("encryptionKey").value.replace(/[^0-9]/g, ""); 
+   // var keyInt = parseInt(key, 10);
+    var klen = 5;
+    alert("key:"+key + " klen:"+klen);
+     
+   
+    var ciphertext = [];
+    
+    var pArr = plaintext.split(""); 
+    //alert("PLAINTEXT:"+plaintext);
+    //alert("pArr:"+pArr.join(""));
+	
+	//find the permutation in terms of the sequence of keyword
+    for(var i=0; i < klen; i++){
+    	var t = parseInt(key.charAt(i),10)-1;
+        ciphertext[i] = pArr[t];
+       // alert("i:"+i+"t:"+t);
+     }
+    
+    document.getElementById("outputCiphertext").value = ciphertext.join("");
+}
+</script>
+
+
+</body>
+</html>
