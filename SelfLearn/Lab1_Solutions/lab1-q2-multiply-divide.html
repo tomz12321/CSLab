@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<div style="background-color:hsl(0, 100%, 90%);color:#555555; font-size:20px; font-weight:bold; font-family:Consolas, 'Courier New', Courier, monospace; text-align:center"><p>Multiplication and Division</p></div>
+
+<div style="height:200px; text-align:center; border:3px solid rgb(180,180,180); margin:10px">
+<table style=" width:50%; height:160px; margin-left:25%; margin-top:10px; text-align:center">
+	<tr>
+    	<td>1st number:</td>
+		<td><input id="num1"/></td>
+    </tr>
+    <tr>
+    	<td>2nd number:</td>
+		<td><input id="num2"/></td>
+    </tr>
+    <tr>
+    	<td><button id="fun1" onclick="multiply()">Multiply</button></td>
+		<td><input type="textbox" id="res1" readonly></td>
+    </tr>
+	<tr>
+    	<td><button id="fun2" onclick="divide()">Divide</button></td>
+        <td><input id="res2" readonly /></td>
+    </tr>
+</table>
+</div>
+
+<script>
+function multiply() {
+    var num1, num2, res1;
+    num1 = document.getElementById("num1").value;
+    num2 = document.getElementById("num2").value;
+    
+    
+     if(num1 == "" || num2 == ""){
+    	res1 = "Empty input";
+     }
+    else if(isNaN(num1) || isNaN(num2) ){
+    //check if the guess number valid; isNaN() function is used to check if it is a number
+   		res1 = "Invalid input";
+    }
+    else{
+    	res1 = num1 * num2;
+    }
+  
+    //display the result
+    document.getElementById("res1").value = res1;  
+}
+
+function divide() {
+    var num1, num2, res2;
+    num1 = document.getElementById("num1").value;
+    num2 = document.getElementById("num2").value;
+    
+    
+     if(num1 == "" || num2 == ""){
+    	res2 = "Empty input";
+     }
+    else if(isNaN(num1) || isNaN(num2) ){
+    //check if the guess number valid; isNaN() function is used to check if it is a number
+   		res2 = "Invalid input";
+    }
+    else{
+    	res2 = num1 / num2;
+    }
+  
+    //display the result
+    document.getElementById("res2").value = res2;  
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<div style="background-color:hsl(0, 100%, 90%);color:#555555; font-size:20px; font-weight:bold; font-family:Consolas, 'Courier New', Courier, monospace; text-align:center"><p>Affine Cipher: Encryption - Decryption</p></div>
+
+<div style="height:300px; text-align:left; border:3px solid rgb(180,180,180); margin:10px">
+<table style="width:80%; height:180px; margin-left:10%; margin-top:10px; text-align:left">
+	
+    <tr>
+    	<td><label for="inputPlaintext">Plaintext:</label></td>
+        <td><textarea id="inputPlaintext" rows="5" cols="60" maxlength="700" placeholder="Please input your plaintext..." ></textarea></td>
+    </tr>
+	<tr>    	
+		<td><label for="encK1">k_1:</label></td>
+        <td><input id="encK1" size=28 maxlength="100"  placeholder="k_1" /></td>
+    </tr>
+    <tr>    	
+		<td><label for="encK2">k_2:</label></td>
+        <td><input id="encK2" size=28 maxlength="100"  placeholder="k_2" /></td>
+    </tr>
+    <tr>
+    	<td colspan=2><button id="encryption" onclick="encryption()" style="margin: 3px 181px 2px; cursor: pointer;">Encrypt</button></td>
+	</tr>
+	<tr>
+    	<td><label for="outputCiphertext">Ciphertext:</td>
+        <td><textarea id="outputCiphertext" rows="5" cols="60" maxlength="700" placeholder="The ciphertext is..." readonly></textarea></td>
+    </tr>
+</table>
+</div>
+
+<script>
+function encryption() {
+	//convert to lowercase/uppercase and remove the space
+    var plaintext = document.getElementById("inputPlaintext").value.toLowerCase().replace(/[^a-z]/g, "");  
+    //alert("plaintext:"+plaintext);
+    if(plaintext.length < 1){ 
+    	alert("Please enter some plaintext"); 
+        return; 
+        }    
+    var k1 = parseInt(document.getElementById("encK1").value); 
+    var k2 = parseInt(document.getElementById("encK2").value);  
+    
+    if(k1 > 26 || k2 >26){ 
+    	alert("k1 k2 need to be smaller than 26"); 
+        return; 
+        }
+    if( k1%2 == 0 || k1 == 13 ){
+    	alert("k1 must be coprime to 26");
+        return;
+    }
+    
+    var ciphertext = ""; 
+    
+    var k=0;    
+	//convert plaintext to number and encrypt
+    for(var i=0; i < plaintext.length; i++){
+    	//use unicode to identify each letter. e.g. a is 97
+    	var code = plaintext.charCodeAt(i) - 97;
+		var newcode = ( (k1*code + k2) % 26 ) + 97;
+		var newletter = String.fromCharCode(newcode);
+		ciphertext = ciphertext + newletter;
+     }
+    
+   
+    document.getElementById("outputCiphertext").value = ciphertext;
+   
+}
+</script>
+
+
+
+<div style="height:300px; text-align:left; border:3px solid rgb(180,180,180); margin:10px">
+<table style="width:80%; height:180px; margin-left:10%; margin-top:10px; text-align:left">
+	
+    <tr>
+    	<td><label for="inputCiphertext">Ciphertext:</label></td>
+        <td><textarea id="inputCiphertext" rows="5" cols="60" maxlength="700" placeholder="Please input your ciphertext..." ></textarea></td>
+    </tr>
+	<tr>    	
+		<td><label for="decK1">k1:</label></td>
+        <td><input id="decK1" size=28 maxlength="100"  placeholder="k_1" /></td>
+    </tr>
+    <tr>    	
+		<td><label for="decK2">k2:</label></td>
+        <td><input id="decK2" size=28 maxlength="100"  placeholder="k_2" /></td>
+    </tr>
+    <tr>
+    	<td colspan=2><button id="decryption" onclick="decryption()" style="margin: 3px 181px 2px; cursor: pointer;">Decrypt</button></td>
+	</tr>
+	<tr>
+    	<td><label for="outputPlaintext">Plaintext:</td>
+        <td><textarea id="outputPlaintext" rows="5" cols="60" maxlength="700" placeholder="The plaintext is..." readonly></textarea></td>
+    </tr>
+</table>
+</div>
+
+<script>
+function decryption() {
+	//convert to lowercase/uppercase and sanitize
+    var ciphertext = document.getElementById("inputCiphertext").value.toLowerCase().replace(/[^a-z]/g, "");  
+    if(ciphertext.length < 1){ 
+    	alert("please enter some ciphertext (letters only)"); return; 
+        }    
+    var k1 = parseInt(document.getElementById("decK1").value); 
+    var k2 = parseInt(document.getElementById("decK2").value); 
+    
+    if(k1 > 26 || k2 >26){ 
+    	alert("k1 k2 need to be smaller than 26"); 
+        return; 
+        }
+	if( k1%2 == 0 && k1 == 13){
+    	alert("k1 must be coprime to 26");
+        return;
+    }
+    //find inverse of k1
+    var inversek1 = 1;
+    for (var i=1; i <= 25; i = i + 2) {
+		if ( (k1*i) % 26 == 1 ) { 
+        inversek1 = i; 
+        }
+	}
+	//alert("inverse key:"+inversek1+" k1:"+k1);
+    var plaintext = "";     
+   
+	
+	for(var i=0; i < ciphertext.length; i++){
+    	//use unicode to identify each letter. e.g. a is 97
+    	var code = ciphertext.charCodeAt(i) - 97;
+		var newnum = ( (inversek1*(code +26 - k2)) % 26 );
+        //alert("code:"+code+" newnum:"+newnum);
+        var newcode = newnum+97;
+		var newletter = String.fromCharCode(newcode);
+		plaintext = plaintext + newletter;
+     }
+    
+    document.getElementById("outputPlaintext").value = plaintext;    
+    
+}
+  
+  
+</script>
+
+</body>
+</html>

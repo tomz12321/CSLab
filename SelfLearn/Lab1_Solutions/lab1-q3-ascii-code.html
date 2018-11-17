@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<div style="background-color:hsl(0, 100%, 90%);color:#555555; font-size:20px; font-weight:bold; font-family:Consolas, 'Courier New', Courier, monospace; text-align:center"><p>Convert to ASCII Code</p></div>
+
+<div style="height:200px; text-align:center; border:3px solid rgb(180,180,180); margin:10px">
+<table style="width:80%; height:180px; margin-left:10%; margin-top:10px; text-align:center">
+	<tr>
+    	<td>Input string:</td>
+		<td><input id="inputStr" maxlength="100"  placeholder="Input your text..." /></td>
+    </tr>
+    <tr>
+    	<td colspan="2"><button id="convert" onclick="convert()">Convert</button></td>
+	</tr>
+	<tr>
+    	<td colspan="2"><textarea id="outputStr" rows="5" cols="50" maxlength="700" placeholder="The ASCII code is..." readonly></textarea></td>
+    </tr>
+</table>
+</div>
+
+<script>
+function convert() {
+
+    var inputStr, outputStr;
+    inputStr = document.getElementById("inputStr").value;
+    
+    if(inputStr == ""){    
+     document.getElementById("inputStr").placeholder = "Empty input";
+    }
+    else{
+    	//convert to ascii code
+		outputStr = inputStr.split('')
+  		.map(function (char) {
+ 		 //split the string and convert characterwise
+   		 var temp = char.charCodeAt(0)+"";
+     	 if(temp.length < 3){
+        	return "0"+temp;
+    		}
+   		 return temp;
+ 		 })
+         .reduce(function (current, previous) {
+ 		 //remove the ',' in between ASCII codes
+  		 return current+" "+previous;
+ 		 });
+   
+        //display the result
+   		document.getElementById("outputStr").value = outputStr;  
+    }
+  
+
+   		
+        
+
+    
+}
+
+</script>
+
+</body>
+</html>

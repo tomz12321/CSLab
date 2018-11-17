@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<div style="background-color:hsl(0, 100%, 90%);color:#555555; font-size:20px; font-weight:bold; font-family:Consolas, 'Courier New', Courier, monospace; text-align:center"><p>Guess a number from 1 to 10</p></div>
+
+<div style="height:100px; text-align:center; border:3px solid rgb(180,180,180)"><p>
+Input number: <input id="num" />
+<button onclick="guessFunction()">Try it</button>
+</p>
+
+<p id="demo"></p>
+</div>
+
+<script>
+function guessFunction() {
+    var guessNum, correctNum, msg;
+    guessNum = document.getElementById("num").value;
+    correctNum = Math.floor((Math.random() * 10) + 1);
+	
+    if(guessNum == ""){
+    msg = "Empty input";
+    }
+    else if(guessNum > 10 || guessNum < 1 || isNaN(guessNum) ){
+    //check if the guess number valid; isNaN() function is used to check if it is a number
+    msg = "Invalid input";
+    }
+    else{
+    //compare the guess number with the correct number
+    msg = (guessNum == correctNum) ? "Good work":"Not matched";
+    }
+    //display the result
+    document.getElementById("demo").innerHTML = msg + "! Correct number:"+correctNum;
+}
+</script>
+
+</body>
+</html>

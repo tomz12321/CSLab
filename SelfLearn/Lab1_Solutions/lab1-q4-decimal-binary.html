@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<div style="background-color:hsl(0, 100%, 90%);color:#555555; font-size:20px; font-weight:bold; font-family:Consolas, 'Courier New', Courier, monospace; text-align:center"><p>Decimal - Binary</p></div>
+
+<div style="height:200px; text-align:center; border:3px solid rgb(180,180,180); margin:10px">
+<table style="width:80%; height:180px; margin-left:10%; margin-top:10px; text-align:center">
+	<tr>    	
+		<td>Decimal number: <input id="inputDecimal" size=40 maxlength="100"  placeholder="Input a decimal number..." /></td>
+    </tr>
+    <tr>
+    	<td><button id="convertToBinary" onclick="convertToBinary()">Convert to Binary</button></td>
+	</tr>
+	<tr>
+    	<td><textarea id="outputBinary" rows="5" cols="60" maxlength="700" placeholder="The binary number is..." readonly></textarea></td>
+    </tr>
+</table>
+</div>
+
+<div style="height:200px; text-align:center; border:3px solid rgb(180,180,180); margin:10px">
+<table style="width:80%; height:180px; margin-left:10%; margin-top:10px; text-align:center">
+	<tr>
+		<td>Binary number: <input id="inputBinary" maxlength="100" size=40 placeholder="Input your binary number..." /></td>
+    </tr>
+    <tr>
+    	<td><button id="convertToDecimal" onclick="convertToDecimal()">Convert to Decimal</button></td>
+	</tr>
+	<tr>
+    	<td><textarea id="outputDecimal" rows="5" cols="60" maxlength="700" placeholder="The decimal number is..." readonly></textarea></td>
+    </tr>
+</table>
+</div>
+
+<script>
+
+function isValidBin(textboxId){    
+    var re = /^[01]+$/;
+    
+    if(re.test(document.getElementById(textboxId).value)){
+      // alert('Valid Binary Number.');
+       return true;
+    }else{
+       alert('Invalid Binary Number.'); 
+       document.getElementById(textboxId).value = "";
+       return false;
+    }
+}
+
+
+function pad(input) {
+ if(input.length % 8 != 0 )
+ {
+ 	//var quotient = Math.floor(input.length/8);
+ 	var padNum = 8 - input.length % 8;
+   // alert(""+quotient+" "+input.length+" "+padNum);
+    
+    for(var i=0; i<padNum; i++){
+    	input = "0"+ input;
+    }
+ }
+ 
+ return input;
+}
+
+function convertToBinary() {
+	document.getElementById("outputBinary").value =  "";
+
+    var inputDecimal, outputBinary;
+    inputDecimal = document.getElementById("inputDecimal").value;
+    
+    if(inputDecimal == "" || isNaN(inputDecimal) ){    
+     document.getElementById("inputDecimal").placeholder = "Invalid input";
+    }
+    else{
+    	//convert to binary
+        outputBinary = pad(parseInt(inputDecimal,10).toString(2));
+  
+        //display the result
+   		document.getElementById("outputBinary").value = outputBinary;  
+    }
+    
+       
+}
+
+
+function convertToDecimal(){
+
+	document.getElementById("outputDecimal").value ="";
+
+	var inputBinary, outputDecimal;
+    inputBinary = document.getElementById("inputBinary").value;
+    
+    if(inputBinary == "" || isValidBin("inputBinary") == false ){
+    	document.getElementById("inputBinary").placeholder = "Invalid input";
+    }
+    else{
+    	//convert to decimal
+        outputDecimal = parseInt(inputBinary, 2).toString(10);
+        
+        //display the result
+        document.getElementById("outputDecimal").value = outputDecimal;
+    }
+    
+}
+
+
+
+</script>
+
+</body>
+</html>
